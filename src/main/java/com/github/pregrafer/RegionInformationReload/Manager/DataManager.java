@@ -23,6 +23,24 @@ public class DataManager {
     private static int biomeSpeed, regionSpeed;
     private static List<String> biomeInfos;
     private static boolean biomeHighAccuracy;
+    private static boolean biomeActive;
+    private static boolean regionActive;
+
+    public static boolean isBiomeActive() {
+        return biomeActive;
+    }
+
+    public static void setBiomeActive(boolean biomeActive) {
+        DataManager.biomeActive = biomeActive;
+    }
+
+    public static boolean isRegionActive() {
+        return regionActive;
+    }
+
+    public static void setRegionActive(boolean regionActive) {
+        DataManager.regionActive = regionActive;
+    }
 
     public static String getBiomeSwitch() {
         return biomeSwitch;
@@ -124,6 +142,8 @@ public class DataManager {
         setBiomeSpeed(settings.getInt("biomeSpeed", 20));
         setRegionSpeed(settings.getInt("regionSpeed", 20));
         setBiomeHighAccuracy(settings.getBoolean("biomeHighAccuracy", false));
+        setBiomeActive(settings.getBoolean("activeOnPlayerJoin.biome", true));
+        setRegionActive(settings.getBoolean("activeOnPlayerJoin.region", true));
         setBiomeInfos(tips.getStringList("biomeInfos"));
         setBiomeSwitch(tips.getString("biomeSwitch", " 生物群系提示已%Action%!"));
         setRegionSwitch(tips.getString("regionSwitch", " 区域提示已%Action%!"));

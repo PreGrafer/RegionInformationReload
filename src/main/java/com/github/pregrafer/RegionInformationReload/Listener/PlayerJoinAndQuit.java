@@ -5,7 +5,6 @@ import com.github.pregrafer.RegionInformationReload.RegionInformationReload;
 import com.github.pregrafer.RegionInformationReload.Task.BiomeTask;
 import com.github.pregrafer.RegionInformationReload.Task.RegionTask;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,17 +15,16 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 public class PlayerJoinAndQuit implements Listener {
     RegionInformationReload instance = RegionInformationReload.getInstance();
-    ConfigurationSection settings = instance.getConfig().getConfigurationSection("Settings");
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent playerJoinEvent) {
         Player player = playerJoinEvent.getPlayer();
-        if (settings.getConfigurationSection("activeOnPlayerJoin").getBoolean("biomes")) {
+        if (DataManager.isBiomeActive()) {
             BiomeTask biomeTask = new BiomeTask(player);
             biomeTask.runTaskTimerAsynchronously(instance, DataManager.getBiomeSpeed(), DataManager.getBiomeSpeed());
             DataManager.getBiomeTasks().put(player.getName(), biomeTask.getTaskId());
         }
-        if (settings.getConfigurationSection("activeOnPlayerJoin").getBoolean("regions")) {
+        if (DataManager.isRegionActive()) {
             RegionTask locTask = new RegionTask(player);
             locTask.runTaskTimerAsynchronously(instance, DataManager.getRegionSpeed(), DataManager.getRegionSpeed());
             DataManager.getRegionTasks().put(player.getName(), locTask.getTaskId());
