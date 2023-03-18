@@ -14,10 +14,36 @@ public class DataManager {
     private static final HashMap<String, String> biomes = new HashMap<>();
     private static final Set<Region> regions = new HashSet<>();
     private static String pluginPrefix;
+    private static String biomeSwitch;
+    private static String regionSwitch;
     private static int biomeSpeed, regionSpeed;
     private static AreaManager areaManager;
     private static List<String> biomeInfos;
     private static boolean biomeHighAccuracy;
+
+    public static AreaManager getAreaManager() {
+        return areaManager;
+    }
+
+    public static void setAreaManager(AreaManager areaManager) {
+        DataManager.areaManager = areaManager;
+    }
+
+    public static String getBiomeSwitch() {
+        return biomeSwitch;
+    }
+
+    public static void setBiomeSwitch(String biomeSwitch) {
+        DataManager.biomeSwitch = biomeSwitch;
+    }
+
+    public static String getRegionSwitch() {
+        return regionSwitch;
+    }
+
+    public static void setRegionSwitch(String regionSwitch) {
+        DataManager.regionSwitch = regionSwitch;
+    }
 
     public static List<String> getBiomeInfos() {
         return biomeInfos;
@@ -50,14 +76,6 @@ public class DataManager {
             }
         }
         return null;
-    }
-
-    public static AreaManager getRegionManager() {
-        return areaManager;
-    }
-
-    public static void setRegionManager(AreaManager areaManager) {
-        DataManager.areaManager = areaManager;
     }
 
     public static String getPluginPrefix() {

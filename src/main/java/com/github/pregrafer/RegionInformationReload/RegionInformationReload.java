@@ -53,7 +53,9 @@ public class RegionInformationReload extends JavaPlugin {
         DataManager.setRegionSpeed(settings.getInt("regionSpeed", 20));
         DataManager.setBiomeHighAccuracy(settings.getBoolean("biomeHighAccuracy", false));
         DataManager.setBiomeInfos(tips.getStringList("biomeInfos"));
-        DataManager.setRegionManager(new AreaManager());
-        DataManager.getRegionManager().loadRegionsAndBiomes();
+        DataManager.setBiomeSwitch(tips.getString("biomeSwitch", " 生物群系提示已%Action%!"));
+        DataManager.setRegionSwitch(tips.getString("regionSwitch", " 区域提示已%Action%!"));
+        DataManager.setAreaManager(new AreaManager());
+        DataManager.getAreaManager().loadRegionsAndBiomes();
     }
 }
