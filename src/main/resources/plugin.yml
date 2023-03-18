@@ -1,0 +1,16 @@
+name: RegionInformationReload
+version: '${project.version}'
+main: com.github.pregrafer.RegionInformationReload.RegionInformationReload
+prefix: RegionInfoRe
+api-version: 1.13
+authors: [ pop2wo ]
+commands:
+  regioninfo:
+    description: Main Command
+    aliases:
+      - rei
+  regioninfoadmin:
+    description: Admin Command
+    aliases:
+      - reia
+

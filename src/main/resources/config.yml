@@ -1,0 +1,146 @@
+Settings:
+  #设置插件前缀
+  pluginPrefix: "&7[&aRegionInfoRe&7]"
+  #设置选择工具 默认为金锄头
+  tool: "GOLD_HOE"
+  #设置玩家进入服务器时是否自动开启对应功能
+  activeOnPlayerJoin:
+    #自定义区域提示
+    regions: true
+    #生物群系提示
+    biomes: true
+  #生态群系是否高精度显示，设置为false时, 如  SAVANNA 与 SAVANNA_ROCK两个群系切换时,无消息提示
+  biomeHighAccuracy: true
+  #设置检测强度,数字越低消耗越高,建议生态群系设置为10或100，自定义区域设置为20 (整数！！！)
+  biomeSpeed: 20
+  regionSpeed: 20
+
+Tips:
+  #生物群系消息提示内容，
+  #[MSG] 发送消息
+  #[TILE] 发送标题 使用::分割属性 主标题::副标题::淡入时间::停留时间::淡出时间
+  #[ACB] ACTION_BAR消息
+  biomeInfos:
+    - "[MSG]-&a你从&b%oldBiome%&a来到了&b%newBiome%"
+    - "[TITLE]-&a%newBiome%::&b%oldBiome%::10::20::20"
+    - "[ACB]-&b%newBiome%"
+
+  #设置插件重载信息
+  reload: "插件已重载!"
+  #生态群系提示开关时提示 %Action%为占位符,表示开启或关闭
+  biomeSwitch: " 生物群系提示已%Action%!"
+  #自定义区域提示开关时提示
+  regionSwitch: " 区域提示已%Action%!"
+
+#区域设置
+Regions:
+  #区域的唯一ID
+  region1:
+    #区域名
+    name: "&ctestCube"
+    #世界
+    world: "world"
+    #区域种类
+    type: "cube"
+    #正方形区域的两个对角点即可
+    X1: 556.1
+    Y1: 76
+    Z1: 52
+    X2: 567.39
+    Y2: 69
+    Z2: 63
+    #区域进入提示
+    inInfos:
+      - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
+      #下面的实例是主标题为空的Title
+      - "[TITLE]-::%name%::10::20::20"
+    #区域离开提示
+    outInfos:
+      - "[MSG]-&e[&c!&e] &a万幸...你安全离开了%name%&a..."
+  region2:
+    #区域名
+    name: "&ctestBall"
+    #世界
+    world: "world"
+    #区域种类
+    type: "ball"
+    #球心坐标与球的半径
+    centerX: 556.1
+    centerY: 76
+    centerZ: 52
+    radius: 10
+    #区域进入提示
+    inInfos:
+      - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
+      - "[TITLE]-::%name%::10::20::20"
+    #区域离开提示
+    outInfos:
+      - "[MSG]-&e[&c!&e] &a万幸...你安全离开了%name%&a..."
+
+Biomes:
+  #注意！！！这里是1.12.2版本下的所有biome
+  #若需要高版本 请根据 https://bukkit.windit.net/javadoc/org/bukkit/block/Biome.html 修改
+  #根据需求自行补齐吧~
+  OCEAN: "海洋"
+  PLAINS: "平原"
+  DESERT: "沙漠"
+  EXTREME_HILLS: " "
+  FOREST: "森林"
+  TAIGA: "针叶林"
+  SWAMPLAND: "沼泽地"
+  RIVER: "河流"
+  HELL: "地狱"
+  SKY: "天空"
+  FROZEN_OCEAN: "冻海"
+  FROZEN_RIVER: "冻河"
+  ICE_FLATS: "冰原"
+  ICE_MOUNTAINS: "雪山"
+  MUSHROOM_ISLAND: "蘑菇岛"
+  MUSHROOM_ISLAND_SHORE: "蘑菇岛海岸"
+  BEACHES: "沙滩"
+  DESERT_HILLS: "沙漠群峰"
+  FOREST_HILLS: "森林群峰"
+  TAIGA_HILLS: "针叶林群峰"
+  SMALLER_EXTREME_HILLS: "小型..."
+  JUNGLE: "丛林"
+  SPARESE_JUNGLE: "稀疏丛林"
+  JUNGLE_HILLS: "丛林山脉"
+  JUNGLE_EDGE: "丛林边缘"
+  DEEP_OCEAN: "深海"
+  STONE_BEACH: "石之沙滩"
+  COLD_BEACH: " "
+  BIRCH_FOREST: " "
+  BIRCH_FOREST_HILLS: " "
+  ROOFED_FOREST: " "
+  TAIGA_COLD: " "
+  TAIGA_COLD_HILLS: " "
+  REDWOOD_TAIGA: " "
+  REDWOOD_TAIGA_HILLS: " "
+  EXTREME_HILLS_WITH_TREES: " "
+  SAVANNA: "萨瓦拉草原"
+  SAVANNA_ROCK: " "
+  MESA: " "
+  MESA_ROCK: " "
+  MESA_CLEAR_ROCK: " "
+  VOID: " "
+  MUTATED_PLAINS: " "
+  MUTATED_DESERT: " "
+  MUTATED_EXTREME_HILLS: " "
+  MUTATED_FOREST: " "
+  MUTATED_TAIGA: " "
+  MUTATED_SWAMPLAND: ""
+  MUTATED_ICE_FLATS: " "
+  MUTATED_JUNGLE: " "
+  MUTATED_JUNGLE_EDGE: " "
+  MUTATED_BIRCH_FOREST: " "
+  MUTATED_BIRCH_FOREST_HILLS: " "
+  MUTATED_ROOFED_FOREST: " "
+  MUTATED_TAIGA_COLD: " "
+  MUTATED_REDWOOD_TAIGA: " "
+  MUTATED_REDWOOD_TAIGA_HILLS: " "
+  MUTATED_EXTREME_HILLS_WITH_TREES: " "
+  MUTATED_SAVANNA: " "
+  MUTATED_SAVANNA_ROCK: " "
+  MUTATED_MESA: " "
+  MUTATED_MESA_ROCK: " "
+  MUTATED_MESA_CLEAR_ROCK: " "
