@@ -39,7 +39,7 @@ public class RegionTask extends BukkitRunnable {
         if (playerRegionLoc.containsKey(player.getName())) {
             oldRegionId = playerRegionLoc.get(player.getName());
         }
-        for (Region region : DataManager.getRegions()) {
+        for (Region region : DataManager.getRegions().values()) {
             if (region.getWorld().equalsIgnoreCase(world) && region.contains(location)) {
                 String uniqueId = region.getUniqueId();
                 if (uniqueId.equals(oldRegionId)) {
@@ -55,7 +55,7 @@ public class RegionTask extends BukkitRunnable {
             }
         }
         if (!Objects.isNull(oldRegionId)) {
-            Region oldRegion = DataManager.getRegion(oldRegionId);
+            Region oldRegion = DataManager.getRegions().get(oldRegionId);
             oldRegionId = null;
             List<String> outInfos = new ArrayList<>(oldRegion.getOutInfos());
             outInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s.replace("%name%", oldRegion.getRegionName())));

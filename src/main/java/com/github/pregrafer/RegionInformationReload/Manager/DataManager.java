@@ -8,14 +8,16 @@ import com.github.pregrafer.RegionInformationReload.Tool.Point;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DataManager {
     private static final HashMap<String, String> playerRegionLoc = new HashMap<>();
     private static final HashMap<String, Integer> biomeTasks = new HashMap<>();
     private static final HashMap<String, Integer> regionTasks = new HashMap<>();
     private static final HashMap<String, String> biomes = new HashMap<>();
-    private static final Set<Region> regions = new HashSet<>();
+    private static final HashMap<String, Region> regions = new HashMap<>();
     private static final FileConfiguration config = RegionInformationReload.getInstance().getConfig();
     private static String pluginPrefix;
     private static String biomeSwitch;
@@ -119,7 +121,7 @@ public class DataManager {
         return playerRegionLoc;
     }
 
-    public static Set<Region> getRegions() {
+    public static HashMap<String, Region> getRegions() {
         return regions;
     }
 
@@ -163,7 +165,7 @@ public class DataManager {
             ConfigurationSection region = regions.getConfigurationSection(regionUniqueId);
             String type = region.getString("type");
             if ("cube".equals(type)) {
-                DataManager.getRegions().add(new CubeRegion(
+                DataManager.getRegions().put(regionUniqueId, new CubeRegion(
                         regionUniqueId,
                         region.getString("name"),
                         region.getString("world"),
@@ -178,7 +180,7 @@ public class DataManager {
                                 region.getDouble("Z2"))
                 ));
             } else if ("ball".equals(type)) {
-                DataManager.getRegions().add(new BallRegion(
+                DataManager.getRegions().put(regionUniqueId, new BallRegion(
                         regionUniqueId,
                         region.getString("name"),
                         region.getString("world"),
@@ -191,10 +193,10 @@ public class DataManager {
                         region.getDouble("radius")
                 ));
             } else {
-                DataManager.getRegions().add(new Region(region.getString("name"),
+                DataManager.getRegions().put(regionUniqueId, new Region(regionUniqueId,
+                        region.getString("name"),
                         region.getString("world"),
                         "ERROR",
-                        regionUniqueId,
                         region.getStringList("inInfos"),
                         region.getStringList("outInfos")
                 ));
