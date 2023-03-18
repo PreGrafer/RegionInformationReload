@@ -83,15 +83,7 @@ public class DataManager {
         regions.clear();
         biomes.clear();
     }
-
-    public static Region getRegion(String regionId) {
-        for (Region region : regions) {
-            if (region.getUniqueId().equalsIgnoreCase(regionId)) {
-                return region;
-            }
-        }
-        return null;
-    }
+    
 
     public static String getPluginPrefix() {
         return pluginPrefix;
