@@ -61,7 +61,7 @@ public class DataManager {
         DataManager.biomeHighAccuracy = biomeHighAccuracy;
     }
 
-    public static void clean() {
+    public static void cleanAllData() {
         playerRegionLoc.clear();
         biomeTasks.clear();
         regionTasks.clear();

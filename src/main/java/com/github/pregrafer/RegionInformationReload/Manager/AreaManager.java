@@ -74,6 +74,7 @@ public class AreaManager {
 
     private void reloadRegionsAndBiomes() {
         DataManager.getRegions().clear();
+        DataManager.getBiomes().clear();
         loadRegionsAndBiomes();
     }
 

@@ -36,7 +36,7 @@ public class RegionInformationReload extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        DataManager.clean();
+        DataManager.cleanAllData();
         Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + " &bUnloading RegionInformationRe..."));
     }
 
