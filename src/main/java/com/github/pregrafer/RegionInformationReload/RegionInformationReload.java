@@ -28,8 +28,7 @@ public class RegionInformationReload extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
         register();
-        DataManager.loadData();
-        DataManager.loadRegionsAndBiomes();
+        DataManager.reload();
         Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + " &bLoading RegionInformationRe..."));
     }
 

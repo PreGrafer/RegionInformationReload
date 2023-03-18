@@ -132,10 +132,12 @@ public class DataManager {
     public static void reload() {
         RegionInformationReload.getInstance().reloadConfig();
         loadData();
-        reloadRegionsAndBiomes();
+        loadRegionsAndBiomes();
     }
 
     public static void loadRegionsAndBiomes() {
+        regions.clear();
+        biomes.clear();
         ConfigurationSection regions = config.getConfigurationSection("Regions");
         regions.getKeys(false).stream().forEach(regionUniqueId -> {
             ConfigurationSection region = regions.getConfigurationSection(regionUniqueId);
@@ -187,11 +189,6 @@ public class DataManager {
         }
     }
 
-    private static void reloadRegionsAndBiomes() {
-        regions.clear();
-        biomes.clear();
-        loadRegionsAndBiomes();
-    }
 
     private static void saveRegion(Region newRegion) {
         ConfigurationSection regions = config.getConfigurationSection("Regions");
