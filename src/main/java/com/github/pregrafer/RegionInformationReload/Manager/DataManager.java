@@ -18,10 +18,9 @@ public class DataManager {
     private static final HashMap<String, Integer> regionTasks = new HashMap<>();
     private static final HashMap<String, String> biomes = new HashMap<>();
     private static final HashMap<String, Region> regions = new HashMap<>();
-    private static final FileConfiguration config = RegionInformationReload.getInstance().getConfig();
+    private static final HashMap<String, String> customMessages = new HashMap<>();
+    private static FileConfiguration config = RegionInformationReload.getInstance().getConfig();
     private static String pluginPrefix;
-    private static String biomeSwitch;
-    private static String regionSwitch;
     private static int biomeSpeed, regionSpeed;
     private static List<String> biomeInfos;
     private static boolean biomeHighAccuracy;
@@ -42,22 +41,6 @@ public class DataManager {
 
     public static void setRegionActive(boolean regionActive) {
         DataManager.regionActive = regionActive;
-    }
-
-    public static String getBiomeSwitch() {
-        return biomeSwitch;
-    }
-
-    public static void setBiomeSwitch(String biomeSwitch) {
-        DataManager.biomeSwitch = biomeSwitch;
-    }
-
-    public static String getRegionSwitch() {
-        return regionSwitch;
-    }
-
-    public static void setRegionSwitch(String regionSwitch) {
-        DataManager.regionSwitch = regionSwitch;
     }
 
     public static List<String> getBiomeInfos() {
@@ -129,24 +112,40 @@ public class DataManager {
         return regionTasks;
     }
 
+    public static HashMap<String, String> getCustomMessages() {
+        return customMessages;
+    }
+
+    public static void setCustomMessages() {
+        customMessages.clear();
+        ConfigurationSection tips = config.getConfigurationSection("Tips");
+        Map<String, Object> tipsMap = tips.getValues(true);
+        for (String i : tipsMap.keySet()) {
+            if (tips.get(i) != null) {
+                customMessages.put(i, String.valueOf(tipsMap.get(i)));
+            } else {
+                customMessages.put(i, i);
+            }
+        }
+    }
+
+    public static void reload() {
+        RegionInformationReload.getInstance().reloadConfig();
+        config = RegionInformationReload.getInstance().getConfig();
+        loadData();
+        loadRegionsAndBiomes();
+    }
+
     public static void loadData() {
         ConfigurationSection settings = config.getConfigurationSection("Settings");
-        ConfigurationSection tips = config.getConfigurationSection("Tips");
         setPluginPrefix(settings.getString("pluginPrefix", "&7[&aRegionInfoRe&7]"));
         setBiomeSpeed(settings.getInt("biomeSpeed", 20));
         setRegionSpeed(settings.getInt("regionSpeed", 20));
         setBiomeHighAccuracy(settings.getBoolean("biomeHighAccuracy", false));
         setBiomeActive(settings.getBoolean("activeOnPlayerJoin.biome", true));
         setRegionActive(settings.getBoolean("activeOnPlayerJoin.region", true));
-        setBiomeInfos(tips.getStringList("biomeInfos"));
-        setBiomeSwitch(tips.getString("biomeSwitch", " 生物群系提示已%Action%!"));
-        setRegionSwitch(tips.getString("regionSwitch", " 区域提示已%Action%!"));
-    }
-
-    public static void reload() {
-        RegionInformationReload.getInstance().reloadConfig();
-        loadData();
-        loadRegionsAndBiomes();
+        setBiomeInfos(settings.getStringList("biomeInfos"));
+        setCustomMessages();
     }
 
     public static void loadRegionsAndBiomes() {

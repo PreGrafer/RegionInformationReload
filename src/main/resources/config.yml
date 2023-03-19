@@ -15,7 +15,6 @@ Settings:
   biomeSpeed: 100
   regionSpeed: 20
 
-Tips:
   #生物群系消息提示内容，
   #[MSG] 发送消息
   #[TILE] 发送标题 使用::分割属性 主标题::副标题::淡入时间::停留时间::淡出时间
@@ -23,8 +22,15 @@ Tips:
   biomeInfos:
     - "[ACB]-&b%oldBiome%&a->&b%newBiome%"
 
+Tips:
+  #未知指令
+  unknowCommand: " 未知指令!"
   #设置插件重载信息
-  reload: "插件已重载!"
+  reload: " 插件已重载!"
+  #没有权限 本插件大部分权限节点为RIR.admin
+  noPermission: " 你没有权限!"
+  #错误的指令使用方式
+  wrongUsage: " 指令输入出错!"
   #生态群系提示开关时提示 %Action%为占位符,表示开启或关闭
   biomeSwitch: " 生物群系提示已%Action%!"
   #自定义区域提示开关时提示
@@ -52,7 +58,7 @@ Regions:
       - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
       #下面的实例是主标题为空的Title
       - "[TITLE]-::%name%::10::20::10"
-      - "[CCOM]-give %player 1 1%"
+      - "[CCOM]-give %player% 1 1"
     #区域离开提示
     outInfos:
       - "[TITLE]-::%name%::0::0::40"

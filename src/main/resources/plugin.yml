@@ -5,12 +5,7 @@ prefix: RegionInfoRe
 api-version: 1.13
 authors: [ pop2wo ]
 commands:
-  regioninfo:
+  regioninformationreload:
     description: Main Command
     aliases:
-      - rei
-  regioninfoadmin:
-    description: Admin Command
-    aliases:
-      - reia
-
+      - rir
