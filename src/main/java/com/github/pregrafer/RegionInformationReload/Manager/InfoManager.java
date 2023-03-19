@@ -2,6 +2,7 @@ package com.github.pregrafer.RegionInformationReload.Manager;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class InfoManager {
     }
 
     public void sendInfos() {
+        infos.replaceAll(info -> info.replace("%player%", player.getName()));
         for (String info : infos) {
             MessageType type = getMessageType(info);
             if (type != null) {
@@ -35,6 +37,14 @@ public class InfoManager {
                     case ACTION_BAR:
                         sendActionBar(info);
                         break;
+                    case PCOM:
+                        sendPlayerCommand(info);
+                        break;
+                    case CCOM:
+                        sendConsoleCommand(info);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
@@ -47,6 +57,10 @@ public class InfoManager {
             return MessageType.TITLE;
         } else if (info.contains("[ACB]")) {
             return MessageType.ACTION_BAR;
+        } else if (info.contains("[PCOM]")) {
+            return MessageType.PCOM;
+        } else if (info.contains("[CCOM]")) {
+            return MessageType.CCOM;
         }
         return null;
     }
@@ -72,9 +86,24 @@ public class InfoManager {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
     }
 
+    private void sendPlayerCommand(String info) {
+        player.performCommand(info.split("-", 2)[1]);
+    }
+
+    private void sendConsoleCommand(String info) {
+        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), info.split("-", 2)[1]);
+    }
+
     private enum MessageType {
+        //消息
         MSG,
+        //标题
         TITLE,
-        ACTION_BAR
+        //活动栏
+        ACTION_BAR,
+        //玩家指令
+        PCOM,
+        //后台指令
+        CCOM
     }
 }
