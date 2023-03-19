@@ -83,7 +83,7 @@ public class DataManager {
         regions.clear();
         biomes.clear();
     }
-    
+
 
     public static String getPluginPrefix() {
         return pluginPrefix;
@@ -152,62 +152,63 @@ public class DataManager {
     public static void loadRegionsAndBiomes() {
         regions.clear();
         biomes.clear();
-        ConfigurationSection regions = config.getConfigurationSection("Regions");
-        regions.getKeys(false).stream().forEach(regionUniqueId -> {
-            ConfigurationSection region = regions.getConfigurationSection(regionUniqueId);
-            String type = region.getString("type");
+        ConfigurationSection regionsSection = config.getConfigurationSection("Regions");
+        Map<String, Object> biomesMap = config.getConfigurationSection("Biomes").getValues(true);
+        regionsSection.getKeys(false).stream().forEach(regionUniqueId -> {
+            ConfigurationSection regionSection = regionsSection.getConfigurationSection(regionUniqueId);
+            String type = regionSection.getString("type");
             if ("cube".equals(type)) {
-                DataManager.getRegions().put(regionUniqueId, new CubeRegion(
+                regions.put(regionUniqueId, new CubeRegion(
                         regionUniqueId,
-                        region.getString("name"),
-                        region.getString("world"),
+                        regionSection.getString("name"),
+                        regionSection.getString("world"),
                         "cube",
-                        region.getStringList("inInfos"),
-                        region.getStringList("outInfos"),
-                        new Point(region.getDouble("X1"),
-                                region.getDouble("Y1"),
-                                region.getDouble("Z1")),
-                        new Point(region.getDouble("X2"),
-                                region.getDouble("Y2"),
-                                region.getDouble("Z2"))
+                        regionSection.getStringList("inInfos"),
+                        regionSection.getStringList("outInfos"),
+                        new Point(regionSection.getDouble("X1"),
+                                regionSection.getDouble("Y1"),
+                                regionSection.getDouble("Z1")),
+                        new Point(regionSection.getDouble("X2"),
+                                regionSection.getDouble("Y2"),
+                                regionSection.getDouble("Z2"))
                 ));
             } else if ("ball".equals(type)) {
-                DataManager.getRegions().put(regionUniqueId, new BallRegion(
+                regions.put(regionUniqueId, new BallRegion(
                         regionUniqueId,
-                        region.getString("name"),
-                        region.getString("world"),
+                        regionSection.getString("name"),
+                        regionSection.getString("world"),
                         "ball",
-                        region.getStringList("inInfos"),
-                        region.getStringList("outInfos"),
-                        new Point(region.getDouble("centerX"),
-                                region.getDouble("centerY"),
-                                region.getDouble("centerZ")),
-                        region.getDouble("radius")
+                        regionSection.getStringList("inInfos"),
+                        regionSection.getStringList("outInfos"),
+                        new Point(regionSection.getDouble("centerX"),
+                                regionSection.getDouble("centerY"),
+                                regionSection.getDouble("centerZ")),
+                        regionSection.getDouble("radius")
                 ));
             } else {
-                DataManager.getRegions().put(regionUniqueId, new Region(regionUniqueId,
-                        region.getString("name"),
-                        region.getString("world"),
+                regions.put(regionUniqueId, new Region(regionUniqueId,
+                        regionSection.getString("name"),
+                        regionSection.getString("world"),
                         "ERROR",
-                        region.getStringList("inInfos"),
-                        region.getStringList("outInfos")
+                        regionSection.getStringList("inInfos"),
+                        regionSection.getStringList("outInfos")
                 ));
             }
         });
-        for (String i : biomes.keySet()) {
-            if (biomes.get(i) != null) {
-                DataManager.getBiomes().put(i, String.valueOf(biomes.get(i)));
+        for (String i : biomesMap.keySet()) {
+            if (biomesMap.get(i) != null) {
+                biomes.put(i, String.valueOf(biomesMap.get(i)));
             } else {
-                DataManager.getBiomes().put(i, " ");
+                biomes.put(i, " ");
             }
         }
     }
 
 
     private static void saveRegion(Region newRegion) {
-        ConfigurationSection regions = config.getConfigurationSection("Regions");
-        regions.createSection(newRegion.getUniqueId());
-        ConfigurationSection newSectionOfRegion = regions.getConfigurationSection(newRegion.getUniqueId());
+        ConfigurationSection regionsSection = config.getConfigurationSection("Regions");
+        regionsSection.createSection(newRegion.getUniqueId());
+        ConfigurationSection newSectionOfRegion = regionsSection.getConfigurationSection(newRegion.getUniqueId());
 
         Map<String, Object> data = new HashMap<>();
         data.put("name", newRegion.getRegionName());
@@ -239,5 +240,6 @@ public class DataManager {
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             newSectionOfRegion.set(entry.getKey(), entry.getValue());
         }
+        RegionInformationReload.getInstance().saveConfig();
     }
 }
