@@ -9,7 +9,7 @@ Settings:
     biome: true
     #自定义区域提示
     region: true
-  #生态群系是否高精度显示，设置为false时, 如  SAVANNA 与 SAVANNA_ROCK两个群系切换时,无消息提示
+  #生态群系是否高精度显示，设置为false时, 如 SAVANNA与SAVANNA_ROCK两个群系切换时,无消息提示
   biomeHighAccuracy: true
   #设置检测强度,数字越低消耗越高,建议生态群系设置为50或100，自定义区域设置为20 (整数！！！)
   biomeSpeed: 100
