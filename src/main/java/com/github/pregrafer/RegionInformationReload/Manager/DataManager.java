@@ -199,7 +199,7 @@ public class DataManager {
             if (biomesMap.get(i) != null) {
                 biomes.put(i, String.valueOf(biomesMap.get(i)));
             } else {
-                biomes.put(i, " ");
+                biomes.put(i, i);
             }
         }
     }
