@@ -19,6 +19,8 @@ Settings:
   #[MSG] 发送消息
   #[TILE] 发送标题 使用::分割属性 主标题::副标题::淡入时间::停留时间::淡出时间
   #[ACB] ACTION_BAR消息
+  #[CCOM] 控制台指令 不用加/
+  #[PCOM] 玩家指令 不用加/
   biomeInfos:
     - "[ACB]-&b%oldBiome%&a->&b%newBiome%"
 
@@ -58,7 +60,8 @@ Regions:
       - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
       #下面的实例是主标题为空的Title
       - "[TITLE]-::%name%::10::20::10"
-      - "[CCOM]-give %player% 1 1"
+      - "[CCOM]-give %player% arrow 1"
+      - "[PCOM]-say im noob"
     #区域离开提示
     outInfos:
       - "[TITLE]-::%name%::0::0::40"
