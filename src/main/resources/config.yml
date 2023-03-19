@@ -21,9 +21,7 @@ Tips:
   #[TILE] 发送标题 使用::分割属性 主标题::副标题::淡入时间::停留时间::淡出时间
   #[ACB] ACTION_BAR消息
   biomeInfos:
-    - "[MSG]-&a你从&b%oldBiome%&a来到了&b%newBiome%"
-    - "[TITLE]-&a%newBiome%::&b%oldBiome%::10::20::20"
-    - "[ACB]-&b%newBiome%"
+    - "[ACB]-&b%oldBiome%&a->&b%newBiome%"
 
   #设置插件重载信息
   reload: "插件已重载!"
@@ -43,20 +41,20 @@ Regions:
     #区域种类
     type: "cube"
     #正方形区域的两个对角点即可
-    X1: 556.1
-    Y1: 76
-    Z1: 52
-    X2: 567.39
-    Y2: 69
-    Z2: 63
+    X1: 481
+    Y1: 69
+    Z1: 61
+    X2: 489
+    Y2: 64
+    Z2: 51
     #区域进入提示
     inInfos:
       - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
       #下面的实例是主标题为空的Title
-      - "[TITLE]-::%name%::10::20::20"
+      - "[TITLE]-::%name%::10::20::10"
     #区域离开提示
     outInfos:
-      - "[MSG]-&e[&c!&e] &a万幸...你安全离开了%name%&a..."
+      - "[TITLE]-::%name%::0::0::40"
   region2:
     #区域名
     name: "&ctestBall"
@@ -65,82 +63,85 @@ Regions:
     #区域种类
     type: "ball"
     #球心坐标与球的半径
-    centerX: 556.1
-    centerY: 76
-    centerZ: 52
-    radius: 10
+    centerX: 503.5
+    centerY: 63
+    centerZ: 50.5
+    radius: 5
     #区域进入提示
     inInfos:
       - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
-      - "[TITLE]-::%name%::10::20::20"
+      #下面的实例是主标题为空的Title
+      - "[TITLE]-::%name%::10::20::10"
     #区域离开提示
     outInfos:
-      - "[MSG]-&e[&c!&e] &a万幸...你安全离开了%name%&a..."
+      - "[TITLE]-::%name%::0::0::40"
 
 Biomes:
-  #注意！！！这里是1.12.2版本下的所有biome
-  #若需要高版本 请根据 https://bukkit.windit.net/javadoc/org/bukkit/block/Biome.html 修改
   #根据需求自行补齐吧~
-  OCEAN: "海洋"
-  PLAINS: "平原"
-  DESERT: "沙漠"
-  EXTREME_HILLS: " "
-  FOREST: "森林"
-  TAIGA: "针叶林"
-  SWAMPLAND: "沼泽地"
-  RIVER: "河流"
-  HELL: "地狱"
-  SKY: "天空"
-  FROZEN_OCEAN: "冻海"
-  FROZEN_RIVER: "冻河"
-  ICE_FLATS: "冰原"
-  ICE_MOUNTAINS: "雪山"
-  MUSHROOM_ISLAND: "蘑菇岛"
-  MUSHROOM_ISLAND_SHORE: "蘑菇岛海岸"
-  BEACHES: "沙滩"
-  DESERT_HILLS: "沙漠群峰"
-  FOREST_HILLS: "森林群峰"
-  TAIGA_HILLS: "针叶林群峰"
-  SMALLER_EXTREME_HILLS: "小型..."
-  JUNGLE: "丛林"
-  SPARESE_JUNGLE: "稀疏丛林"
-  JUNGLE_HILLS: "丛林山脉"
-  JUNGLE_EDGE: "丛林边缘"
+  #https://bukkit.windit.net/javadoc/org/bukkit/block/Biome.html
+  #https://baike.baidu.com/item/%E7%94%9F%E7%89%A9%E7%BE%A4%E7%B3%BB/18860326?fr=aladdin
+
+  BADLANDS: "恶地"
+  BAMBOO_JUNGLE: "竹林"
+  BASALT_DELTAS: "玄武岩三角洲"
+  BEACH: "沙滩"
+  BIRCH_FOREST: "桦木森林"
+  COLD_OCEAN: "冷水海洋"
+  CRIMSON_FOREST: "绯红森林"
+  CUSTOM: "自定义生态群系"
+  DARK_FOREST: "黑森林"
+  DEEP_COLD_OCEAN: "冷水深海"
+  DEEP_DARK: "深邃洞穴"
+  DEEP_FROZEN_OCEAN: "冰冻深海"
+  DEEP_LUKEWARM_OCEAN: "温水深海"
   DEEP_OCEAN: "深海"
-  STONE_BEACH: "石之沙滩"
-  COLD_BEACH: " "
-  BIRCH_FOREST: " "
-  BIRCH_FOREST_HILLS: " "
-  ROOFED_FOREST: " "
-  TAIGA_COLD: " "
-  TAIGA_COLD_HILLS: " "
-  REDWOOD_TAIGA: " "
-  REDWOOD_TAIGA_HILLS: " "
-  EXTREME_HILLS_WITH_TREES: " "
-  SAVANNA: "萨瓦拉草原"
-  SAVANNA_ROCK: " "
-  MESA: " "
-  MESA_ROCK: " "
-  MESA_CLEAR_ROCK: " "
-  VOID: " "
-  MUTATED_PLAINS: " "
-  MUTATED_DESERT: " "
-  MUTATED_EXTREME_HILLS: " "
-  MUTATED_FOREST: " "
-  MUTATED_TAIGA: " "
-  MUTATED_SWAMPLAND: ""
-  MUTATED_ICE_FLATS: " "
-  MUTATED_JUNGLE: " "
-  MUTATED_JUNGLE_EDGE: " "
-  MUTATED_BIRCH_FOREST: " "
-  MUTATED_BIRCH_FOREST_HILLS: " "
-  MUTATED_ROOFED_FOREST: " "
-  MUTATED_TAIGA_COLD: " "
-  MUTATED_REDWOOD_TAIGA: " "
-  MUTATED_REDWOOD_TAIGA_HILLS: " "
-  MUTATED_EXTREME_HILLS_WITH_TREES: " "
-  MUTATED_SAVANNA: " "
-  MUTATED_SAVANNA_ROCK: " "
-  MUTATED_MESA: " "
-  MUTATED_MESA_ROCK: " "
-  MUTATED_MESA_CLEAR_ROCK: " "
+  DESERT: "沙漠"
+  DRIPSTONE_CAVES: "溶洞"
+  END_BARRENS: "末地荒地"
+  END_HIGHLANDS: "末地高地"
+  END_MIDLANDS: "末地内陆"
+  ERODED_BADLANDS: "被风蚀的恶地"
+  FLOWER_FOREST: "繁花森林"
+  FOREST: "森林"
+  FROZEN_OCEAN: "冻洋"
+  FROZEN_PEAKS: "冰封山峰"
+  FROZEN_RIVER: "冻河"
+  GROVE: "雪林"
+  ICE_SPIKES: "冰刺平原"
+  JAGGED_PEAKS: "尖峭山峰"
+  JUNGLE: "丛林"
+  LUKEWARM_OCEAN: "温水海洋"
+  LUSH_CAVES: "繁茂洞穴"
+  MANGROVE_SWAMP: "红树林沼泽"
+  MEADOW: "草甸"
+  MUSHROOM_FIELDS: "蘑菇岛"
+  NETHER_WASTES: "下界荒地"
+  OCEAN: "海洋"
+  OLD_GROWTH_BIRCH_FOREST: "原始桦木森林"
+  OLD_GROWTH_PINE_TAIGA: "原始松木针叶林"
+  OLD_GROWTH_SPRUCE_TAIGA: "原始云杉针叶林"
+  PLAINS: "平原"
+  RIVER: "河流"
+  SAVANNA: "热带草原"
+  SAVANNA_PLATEAU: "热带高原"
+  SMALL_END_ISLANDS: "末地小型岛屿"
+  SNOWY_BEACH: "积雪沙滩"
+  SNOWY_PLAINS: "积雪平原"
+  SNOWY_SLOPES: "积雪山坡"
+  SNOWY_TAIGA: "积雪针叶林"
+  SOUL_SAND_VALLEY: "灵魂沙峡谷"
+  SPARSE_JUNGLE: "稀疏的丛林"
+  STONY_PEAKS: "裸岩山峰"
+  STONY_SHORE: "石岸"
+  SUNFLOWER_PLAINS: "向日葵平原"
+  SWAMP: "沼泽"
+  TAIGA: "针叶林"
+  THE_END: "末地"
+  THE_VOID: "虚空"
+  WARM_OCEAN: "暖水海洋"
+  WARPED_FOREST: "诡异森林"
+  WINDSWEPT_FOREST: "风袭森林"
+  WINDSWEPT_GRAVELLY_HILLS: "风袭沙砾丘陵"
+  WINDSWEPT_HILLS: "风袭丘陵"
+  WINDSWEPT_SAVANNA: "风袭热带草原"
+  WOODED_BADLANDS: "繁茂的恶地"
