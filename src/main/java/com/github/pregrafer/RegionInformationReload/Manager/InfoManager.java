@@ -91,7 +91,7 @@ public class InfoManager {
     }
 
     private void sendConsoleCommand(String info) {
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), info.split("-", 2)[1]);
+        Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), info.split("-", 2)[1]);
     }
 
     private enum MessageType {

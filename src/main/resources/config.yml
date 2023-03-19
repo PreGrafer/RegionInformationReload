@@ -52,6 +52,7 @@ Regions:
       - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
       #下面的实例是主标题为空的Title
       - "[TITLE]-::%name%::10::20::10"
+      - "[CCOM]-give %player 1 1%"
     #区域离开提示
     outInfos:
       - "[TITLE]-::%name%::0::0::40"
