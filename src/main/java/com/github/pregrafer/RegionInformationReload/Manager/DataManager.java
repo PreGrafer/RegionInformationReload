@@ -28,9 +28,18 @@ public class DataManager {
     private static String tool;
     private static int biomeSpeed, regionSpeed;
     private static List<String> biomeInfos;
+    private static List<String> helpTips;
     private static boolean biomeHighAccuracy;
     private static boolean biomeActive;
     private static boolean regionActive;
+
+    public static List<String> getHelpTips() {
+        return helpTips;
+    }
+
+    public static void setHelpTips(List<String> helpTips) {
+        DataManager.helpTips = helpTips;
+    }
 
     public static String getTool() {
         return tool;
@@ -144,9 +153,11 @@ public class DataManager {
     public static void setCustomMessages() {
         customMessages.clear();
         ConfigurationSection tips = config.getConfigurationSection("Tips");
-        Map<String, Object> tipsMap = tips.getValues(true);
+        setBiomeInfos(tips.getStringList("Entry.biomeInfos"));
+        setHelpTips(tips.getStringList("Entry.helpTips"));
+        Map<String, Object> tipsMap = tips.getConfigurationSection("Single").getValues(true);
         for (String i : tipsMap.keySet()) {
-            if (tips.get(i) != null) {
+            if (tipsMap.get(i) != null) {
                 customMessages.put(i, String.valueOf(tipsMap.get(i)));
             } else {
                 customMessages.put(i, i);
@@ -169,7 +180,6 @@ public class DataManager {
         setBiomeHighAccuracy(settings.getBoolean("biomeHighAccuracy", false));
         setBiomeActive(settings.getBoolean("activeOnPlayerJoin.biome", true));
         setRegionActive(settings.getBoolean("activeOnPlayerJoin.region", true));
-        setBiomeInfos(settings.getStringList("biomeInfos"));
         setTool(settings.getString("tool", "GOLD_HOE"));
         setCustomMessages();
     }

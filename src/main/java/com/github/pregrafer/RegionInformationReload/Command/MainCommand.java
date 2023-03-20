@@ -45,10 +45,12 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                 } else {
                     commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("noPermission")));
                 }
-            } else if (strings[0].equalsIgnoreCase("check") || strings[0].equalsIgnoreCase("create") || strings[0].equalsIgnoreCase("switch")) {
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("wrongUsage")));
+            } else if (strings[0].equalsIgnoreCase("help") && commandSender.hasPermission("RIR.help")) {
+                DataManager.getHelpTips().forEach(tip -> {
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', tip));
+                });
             } else {
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("unknowCommand")));
+                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("wrongUsage")));
             }
         } else if (strings.length == 2) {
             if (strings[0].equalsIgnoreCase("check") && DataManager.getRegions().containsKey(strings[1])) {
@@ -89,10 +91,8 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                 } else {
                     commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("wrongUsage")));
                 }
-            } else if (strings[0].equalsIgnoreCase("create")) {
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("wrongUsage")));
             } else {
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("unknowCommand")));
+                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("wrongUsage")));
             }
         } else if (strings.length == 3) {
             if (strings[0].equalsIgnoreCase("create") && commandSender instanceof Player) {
@@ -155,7 +155,9 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                 tabHelper.add("check");
                 tabHelper.add("create");
                 tabHelper.add("createMode");
+                tabHelper.add("help");
                 tabHelper.add("reload");
+                tabHelper.add("switch");
                 return tabHelper;
             } else if (strings.length == 2) {
                 if (strings[0].equalsIgnoreCase("check")) {
