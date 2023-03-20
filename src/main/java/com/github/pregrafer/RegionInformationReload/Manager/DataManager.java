@@ -166,6 +166,7 @@ public class DataManager {
     }
 
     public static void reload() {
+        RegionInformationReload.getInstance().saveDefaultConfig();
         RegionInformationReload.getInstance().reloadConfig();
         config = RegionInformationReload.getInstance().getConfig();
         loadData();

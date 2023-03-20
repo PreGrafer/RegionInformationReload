@@ -26,9 +26,8 @@ public class RegionInformationReload extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        saveDefaultConfig();
-        register();
         DataManager.reload();
+        register();
         Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + " &bLoading RegionInformationRe..."));
     }
 
