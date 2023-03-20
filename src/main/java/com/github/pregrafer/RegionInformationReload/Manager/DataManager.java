@@ -8,6 +8,7 @@ import com.github.pregrafer.RegionInformationReload.Tool.Point;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +20,37 @@ public class DataManager {
     private static final HashMap<String, String> biomes = new HashMap<>();
     private static final HashMap<String, Region> regions = new HashMap<>();
     private static final HashMap<String, String> customMessages = new HashMap<>();
+    private static final HashMap<String, Point> firstPointList = new HashMap<>();
+    private static final HashMap<String, Point> secondPointList = new HashMap<>();
+    private static final List<String> createModeList = new ArrayList<>();
     private static FileConfiguration config = RegionInformationReload.getInstance().getConfig();
     private static String pluginPrefix;
+    private static String tool;
     private static int biomeSpeed, regionSpeed;
     private static List<String> biomeInfos;
     private static boolean biomeHighAccuracy;
     private static boolean biomeActive;
     private static boolean regionActive;
+
+    public static String getTool() {
+        return tool;
+    }
+
+    public static void setTool(String tool) {
+        DataManager.tool = tool;
+    }
+
+    public static HashMap<String, Point> getFirstPointList() {
+        return firstPointList;
+    }
+
+    public static HashMap<String, Point> getSecondPointList() {
+        return secondPointList;
+    }
+
+    public static List<String> getCreateModeList() {
+        return createModeList;
+    }
 
     public static boolean isBiomeActive() {
         return biomeActive;
@@ -145,6 +170,7 @@ public class DataManager {
         setBiomeActive(settings.getBoolean("activeOnPlayerJoin.biome", true));
         setRegionActive(settings.getBoolean("activeOnPlayerJoin.region", true));
         setBiomeInfos(settings.getStringList("biomeInfos"));
+        setTool(settings.getString("tool", "GOLD_HOE"));
         setCustomMessages();
     }
 
@@ -204,7 +230,7 @@ public class DataManager {
     }
 
 
-    private static void saveRegion(Region newRegion) {
+    public static void saveRegion(Region newRegion) {
         ConfigurationSection regionsSection = config.getConfigurationSection("Regions");
         regionsSection.createSection(newRegion.getUniqueId());
         ConfigurationSection newSectionOfRegion = regionsSection.getConfigurationSection(newRegion.getUniqueId());

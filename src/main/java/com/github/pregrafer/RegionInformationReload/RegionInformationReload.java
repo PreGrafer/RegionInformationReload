@@ -2,6 +2,7 @@ package com.github.pregrafer.RegionInformationReload;
 
 import com.github.pregrafer.RegionInformationReload.Command.MainCommand;
 import com.github.pregrafer.RegionInformationReload.Listener.PlayerEnterAndLeaveRegion;
+import com.github.pregrafer.RegionInformationReload.Listener.PlayerInteractBlock;
 import com.github.pregrafer.RegionInformationReload.Listener.PlayerJoinAndQuit;
 import com.github.pregrafer.RegionInformationReload.Manager.DataManager;
 import org.bukkit.Bukkit;
@@ -41,8 +42,9 @@ public class RegionInformationReload extends JavaPlugin {
         if (getCommand("regioninformationreload") != null) {
             getCommand("regioninformationreload").setExecutor(new MainCommand());
         }
-        Bukkit.getPluginManager().registerEvents(new PlayerJoinAndQuit(), instance);
         Bukkit.getPluginManager().registerEvents(new PlayerEnterAndLeaveRegion(), instance);
+        Bukkit.getPluginManager().registerEvents(new PlayerInteractBlock(), instance);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinAndQuit(), instance);
     }
 
 }

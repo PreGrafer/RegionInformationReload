@@ -25,6 +25,11 @@ public class Point {
         return Math.sqrt(a * a + b * b + c * c);
     }
 
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
+    }
+
     public double getX() {
         return x;
     }

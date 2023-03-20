@@ -25,9 +25,9 @@ public class PlayerJoinAndQuit implements Listener {
             DataManager.getBiomeTasks().put(player.getName(), biomeTask.getTaskId());
         }
         if (DataManager.isRegionActive()) {
-            RegionTask locTask = new RegionTask(player);
-            locTask.runTaskTimer(instance, DataManager.getRegionSpeed(), DataManager.getRegionSpeed());
-            DataManager.getRegionTasks().put(player.getName(), locTask.getTaskId());
+            RegionTask regionTask = new RegionTask(player);
+            regionTask.runTaskTimer(instance, DataManager.getRegionSpeed(), DataManager.getRegionSpeed());
+            DataManager.getRegionTasks().put(player.getName(), regionTask.getTaskId());
         }
     }
 

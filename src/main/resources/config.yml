@@ -2,7 +2,7 @@ Settings:
   #设置插件前缀
   pluginPrefix: "&7[&aRegionInfoRe&7]"
   #设置选择工具 默认为金锄头
-  tool: "GOLD_HOE"
+  tool: "GOLDEN_HOE"
   #设置玩家进入服务器时是否自动开启对应功能
   activeOnPlayerJoin:
     #生物群系提示
@@ -27,16 +27,26 @@ Settings:
 Tips:
   #未知指令
   unknowCommand: " 未知指令!"
-  #设置插件重载信息
+  #设置插件重载信息 RIR.admin
   reload: " 插件已重载!"
-  #没有权限 本插件大部分权限节点为RIR.admin
+  #进入区域创建模式消息提示 RIR.admin
+  createModeSwitch: " 创建模式已%Action%!"
+  #没有权限
   noPermission: " 你没有权限!"
   #错误的指令使用方式
   wrongUsage: " 指令输入出错!"
-  #生态群系提示开关时提示 %Action%为占位符,表示开启或关闭
+  #生态群系提示开关时提示 %Action%为占位符,表示开启或关闭 RIR.switch.biome
   biomeSwitch: " 生物群系提示已%Action%!"
-  #自定义区域提示开关时提示
+  #自定义区域提示开关时提示 RIR.switch.region
   regionSwitch: " 区域提示已%Action%!"
+  #选中第一个方块
+  firstPoint: " 选择第一个点: %Point%"
+  #选中第二个方块
+  secondPoint: " 选择第二个点: %Point%"
+  #点位不足
+  pointNotEnough: " 你选择的点位不足!"
+  #创建成功
+  createSuccessfully: " 成功创建区域,请在config.yml中修改配置"
 
 #区域设置
 Regions:
