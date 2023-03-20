@@ -6,6 +6,7 @@ import com.github.pregrafer.RegionInformationReload.Region.RegionDetials.CubeReg
 import com.github.pregrafer.RegionInformationReload.RegionInformationReload;
 import com.github.pregrafer.RegionInformationReload.Task.BiomeTask;
 import com.github.pregrafer.RegionInformationReload.Task.RegionTask;
+import com.github.pregrafer.RegionInformationReload.Tool.Point;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -101,6 +102,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                     if (strings[1].equalsIgnoreCase("ball")) {
                         if (DataManager.getFirstPointList().containsKey(player.getName())) {
                             String regionUniqueId = String.valueOf(strings[2]);
+                            Point centerPoint = DataManager.getFirstPointList().get(player.getName());
                             BallRegion ballRegion = new BallRegion(
                                     regionUniqueId,
                                     regionUniqueId,
@@ -108,7 +110,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                                     "ball",
                                     new ArrayList<>(),
                                     new ArrayList<>(),
-                                    DataManager.getFirstPointList().get(player.getName()),
+                                    new Point(centerPoint.getX() + 0.5, centerPoint.getY() + 0.5, centerPoint.getZ() + 0.5),
                                     10.0);
                             DataManager.saveRegion(ballRegion);
                             DataManager.getRegions().put(regionUniqueId, ballRegion);
@@ -119,6 +121,10 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                     } else if (strings[1].equalsIgnoreCase("cube")) {
                         if (DataManager.getFirstPointList().containsKey(player.getName()) && DataManager.getSecondPointList().containsKey(player.getName())) {
                             String regionUniqueId = String.valueOf(strings[2]);
+
+                            Point firstPoint = DataManager.getFirstPointList().get(player.getName());
+                            Point secondPoint = DataManager.getSecondPointList().get(player.getName());
+
                             CubeRegion cubeRegion = new CubeRegion(
                                     regionUniqueId,
                                     regionUniqueId,
@@ -126,8 +132,8 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                                     "cube",
                                     new ArrayList<>(),
                                     new ArrayList<>(),
-                                    DataManager.getFirstPointList().get(player.getName()),
-                                    DataManager.getSecondPointList().get(player.getName()));
+                                    new Point(Math.min(firstPoint.getX(), secondPoint.getX()), Math.min(firstPoint.getY(), secondPoint.getY()), Math.min(firstPoint.getZ(), secondPoint.getZ())),
+                                    new Point(Math.max(firstPoint.getX(), secondPoint.getX()) + 1, Math.max(firstPoint.getY(), secondPoint.getY()) + 1, Math.max(firstPoint.getZ(), secondPoint.getZ()) + 1));
                             DataManager.saveRegion(cubeRegion);
                             DataManager.getRegions().put(regionUniqueId, cubeRegion);
                             commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("createSuccessfully")));

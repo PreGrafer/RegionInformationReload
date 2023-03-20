@@ -21,13 +21,13 @@ public class PlayerInteractBlock implements Listener {
             Action action = playerInteractEvent.getAction();
             if (action.equals(Action.LEFT_CLICK_BLOCK)) {
                 Location location = playerInteractEvent.getClickedBlock().getLocation();
-                Point firstPoint = new Point(location.getX() + 0.5, location.getY() + 0.5, location.getZ() + 0.5);
+                Point firstPoint = new Point(location.getX(), location.getY(), location.getZ());
                 DataManager.getFirstPointList().put(player.getName(), firstPoint);
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("firstPoint").replace("%Point%", firstPoint.toString())));
             }
             if (action.equals(Action.RIGHT_CLICK_BLOCK)) {
                 Location location = playerInteractEvent.getClickedBlock().getLocation();
-                Point secondPoint = new Point(location.getX() + 0.5, location.getY() + 0.5, location.getZ() + 0.5);
+                Point secondPoint = new Point(location.getX(), location.getY(), location.getZ());
                 DataManager.getSecondPointList().put(player.getName(), secondPoint);
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("secondPoint").replace("%Point%", secondPoint.toString())));
             }
