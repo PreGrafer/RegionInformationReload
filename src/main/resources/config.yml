@@ -39,6 +39,8 @@ Tips:
     pointNotEnough: " 你选择的点位不足!"
     #创建成功
     createSuccessfully: " 成功创建区域,请在config.yml中修改配置"
+    #未在区域内显示的内容
+    noRegion: "野外"
   Entry:
     #生物群系消息提示内容，
     #[MSG] 发送消息

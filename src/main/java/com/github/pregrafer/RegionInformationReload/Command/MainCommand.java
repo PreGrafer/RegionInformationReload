@@ -79,6 +79,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                         if (DataManager.getRegionTasks().containsKey(player.getName())) {
                             scheduler.cancelTask(DataManager.getRegionTasks().get(player.getName()));
                             DataManager.getRegionTasks().remove(player.getName());
+                            DataManager.getPlayerRegionLoc().remove(player.getName());
                             commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("regionSwitch").replace("%Action%", "关闭")));
                         } else {
                             RegionTask regionTask = new RegionTask(player);

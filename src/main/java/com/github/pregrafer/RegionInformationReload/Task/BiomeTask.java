@@ -34,16 +34,12 @@ public class BiomeTask extends BukkitRunnable {
     @Override
     public void run() {
         updateBiome();
-        if (DataManager.isBiomeHighAccuracy()) {
-            if (biome.equals(oldBiome)) {
-                return;
-            }
-        } else {
-            if (biome.equals(oldBiome) || biome.contains(oldBiome) || oldBiome.contains(biome)) {
-                return;
-            }
+        if (biome.equals(oldBiome)) {
+            return;
         }
-
+        if ((biome.contains(oldBiome) || oldBiome.contains(biome)) && (!DataManager.isBiomeHighAccuracy())) {
+            return;
+        }
         biomes.keySet().forEach(b -> {
             if (b.equalsIgnoreCase(biome)) {
                 List<String> biomeInfos = new ArrayList<>(this.biomeInfos);

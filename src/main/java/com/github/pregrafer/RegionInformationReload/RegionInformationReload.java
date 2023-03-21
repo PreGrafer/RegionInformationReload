@@ -5,9 +5,11 @@ import com.github.pregrafer.RegionInformationReload.Listener.PlayerEnterAndLeave
 import com.github.pregrafer.RegionInformationReload.Listener.PlayerInteractBlock;
 import com.github.pregrafer.RegionInformationReload.Listener.PlayerJoinAndQuit;
 import com.github.pregrafer.RegionInformationReload.Manager.DataManager;
-import org.bukkit.Bukkit;
+import com.github.pregrafer.RegionInformationReload.Manager.PlaceHolderManager;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import static org.bukkit.Bukkit.getPluginManager;
 
 
 /**
@@ -19,6 +21,7 @@ public class RegionInformationReload extends JavaPlugin {
 
     private static RegionInformationReload instance;
 
+
     public static RegionInformationReload getInstance() {
         return instance;
     }
@@ -28,22 +31,24 @@ public class RegionInformationReload extends JavaPlugin {
         instance = this;
         DataManager.reload();
         register();
-        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + " &bLoading RegionInformationRe..."));
+        getLogger().info(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + " &bLoading RegionInformationRe..."));
     }
 
     @Override
     public void onDisable() {
         DataManager.cleanAllData();
-        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + " &bUnloading RegionInformationRe..."));
+        getLogger().info(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + " &bUnloading RegionInformationRe..."));
     }
 
     private void register() {
         if (getCommand("regioninformationreload") != null) {
             getCommand("regioninformationreload").setExecutor(new MainCommand());
         }
-        Bukkit.getPluginManager().registerEvents(new PlayerEnterAndLeaveRegion(), instance);
-        Bukkit.getPluginManager().registerEvents(new PlayerInteractBlock(), instance);
-        Bukkit.getPluginManager().registerEvents(new PlayerJoinAndQuit(), instance);
+        getPluginManager().registerEvents(new PlayerEnterAndLeaveRegion(), instance);
+        getPluginManager().registerEvents(new PlayerInteractBlock(), instance);
+        getPluginManager().registerEvents(new PlayerJoinAndQuit(), instance);
+        if (getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PlaceHolderManager().register();
+        }
     }
-
 }

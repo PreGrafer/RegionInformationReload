@@ -4,13 +4,14 @@ import com.github.pregrafer.RegionInformationReload.Event.PlayerEnterRegionEvent
 import com.github.pregrafer.RegionInformationReload.Event.PlayerLeaveRegionEvent;
 import com.github.pregrafer.RegionInformationReload.Manager.DataManager;
 import com.github.pregrafer.RegionInformationReload.Region.Region;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Objects;
+
+import static org.bukkit.Bukkit.getPluginManager;
 
 
 public class RegionTask extends BukkitRunnable {
@@ -43,14 +44,14 @@ public class RegionTask extends BukkitRunnable {
                 if (region.getUniqueId().equals(oldRegionId)) {
                     return;
                 }
-                Bukkit.getPluginManager().callEvent(new PlayerEnterRegionEvent(player, region));
+                getPluginManager().callEvent(new PlayerEnterRegionEvent(player, region));
                 return;
             }
         }
         if (!Objects.isNull(oldRegionId)) {
             Region oldRegion = DataManager.getRegions().get(oldRegionId);
             oldRegionId = null;
-            Bukkit.getPluginManager().callEvent(new PlayerLeaveRegionEvent(player, oldRegion));
+            getPluginManager().callEvent(new PlayerLeaveRegionEvent(player, oldRegion));
         }
     }
 }

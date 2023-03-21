@@ -4,6 +4,7 @@ main: com.github.pregrafer.RegionInformationReload.RegionInformationReload
 prefix: RegionInfoRe
 api-version: 1.13
 authors: [ pop2wo ]
+softdepend: [ PlaceholderAPI ]
 commands:
   regioninformationreload:
     description: Main Command
