@@ -156,28 +156,26 @@ public class MainCommand implements CommandExecutor, TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
         List<String> tabHelper = new ArrayList<>();
-        if (commandSender.hasPermission("RIR.admin")) {
-            if (strings.length == 1) {
-                tabHelper.add("check");
-                tabHelper.add("create");
-                tabHelper.add("createMode");
-                tabHelper.add("help");
-                tabHelper.add("reload");
-                tabHelper.add("switch");
-                return tabHelper;
-            } else if (strings.length == 2) {
-                if (strings[0].equalsIgnoreCase("check")) {
-                    for (String regionUid : DataManager.getRegions().keySet()) {
-                        tabHelper.add(regionUid);
-                    }
-                    return tabHelper;
-                } else if (strings[0].equalsIgnoreCase("create")) {
-                    tabHelper.add("ball");
-                    tabHelper.add("cube");
-                } else if (strings[0].equalsIgnoreCase("switch")) {
-                    tabHelper.add("biome");
-                    tabHelper.add("region");
+        if (strings.length == 1) {
+            tabHelper.add("check");
+            tabHelper.add("create");
+            tabHelper.add("createMode");
+            tabHelper.add("help");
+            tabHelper.add("reload");
+            tabHelper.add("switch");
+            return tabHelper;
+        } else if (strings.length == 2) {
+            if (strings[0].equalsIgnoreCase("check")) {
+                for (String regionUid : DataManager.getRegions().keySet()) {
+                    tabHelper.add(regionUid);
                 }
+                return tabHelper;
+            } else if (strings[0].equalsIgnoreCase("create")) {
+                tabHelper.add("ball");
+                tabHelper.add("cube");
+            } else if (strings[0].equalsIgnoreCase("switch")) {
+                tabHelper.add("biome");
+                tabHelper.add("region");
             }
         }
         return tabHelper;
