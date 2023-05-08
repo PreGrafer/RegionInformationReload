@@ -13,25 +13,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+/**
+ * 管理所有数据
+ */
 public class DataManager {
-    private static final HashMap<String, String> playerRegionLoc = new HashMap<>();
-    private static final HashMap<String, Integer> biomeTasks = new HashMap<>();
-    private static final HashMap<String, Integer> regionTasks = new HashMap<>();
-    private static final HashMap<String, String> biomes = new HashMap<>();
-    private static final HashMap<String, Region> regions = new HashMap<>();
-    private static final HashMap<String, String> customMessages = new HashMap<>();
-    private static final HashMap<String, Point> firstPointList = new HashMap<>();
-    private static final HashMap<String, Point> secondPointList = new HashMap<>();
-    private static final List<String> createModeList = new ArrayList<>();
-    private static FileConfiguration config = RegionInformationReload.getInstance().getConfig();
-    private static String pluginPrefix;
-    private static String tool;
-    private static int biomeSpeed, regionSpeed;
-    private static List<String> biomeInfos;
-    private static List<String> helpTips;
-    private static boolean biomeHighAccuracy;
-    private static boolean biomeActive;
-    private static boolean regionActive;
+    private static final HashMap<String, String> playerRegionLoc = new HashMap<>(); // 储存玩家所处区域
+    private static final HashMap<String, Integer> biomeTasks = new HashMap<>(); // 储存玩家名与生态群系线程号
+    private static final HashMap<String, Integer> regionTasks = new HashMap<>(); // 储存玩家名与区域线程号
+    private static final HashMap<String, String> biomes = new HashMap<>(); // 储存生态群系ID与自定义名称
+    private static final HashMap<String, Region> regions = new HashMap<>(); // 存储区域UID与区域对象 加载插件或reload时初始化
+    private static final HashMap<String, String> customMessages = new HashMap<>(); // 储存所有单条自定义信息
+    private static final HashMap<String, Point> firstPointList = new HashMap<>(); // 储存建造模式下玩家选取的第一个点
+    private static final HashMap<String, Point> secondPointList = new HashMap<>(); // 储存建造模式下玩家选取的第二个点
+    private static final List<String> createModeList = new ArrayList<>(); // 缓存建造模式下的玩家
+    private static FileConfiguration config = RegionInformationReload.getInstance().getConfig(); // 配置文件对象
+    private static String pluginPrefix; // 插件信息前缀 无需操作 存在setter与getter
+    private static String tool; // 建造模式选取工具
+    private static int biomeSpeed, regionSpeed; // 线程检测速度
+    private static List<String> biomeInfos; // 生态群系自定义消息
+    private static List<String> helpTips; // help指令下的提示
+    private static boolean biomeHighAccuracy; // 生态群系高精度设置
+    private static boolean biomeActive; // 初始化开启生态群系
+    private static boolean regionActive; // 初始化开启区域
+
+    /*
+    下方大部分都是参数的getter与setter
+     */
 
     public static List<String> getHelpTips() {
         return helpTips;
@@ -93,6 +101,7 @@ public class DataManager {
         DataManager.biomeHighAccuracy = biomeHighAccuracy;
     }
 
+    // 清除所有缓存的玩家与区域数据 无用 考虑删除
     public static void cleanAllData() {
         playerRegionLoc.clear();
         biomeTasks.clear();
@@ -150,6 +159,7 @@ public class DataManager {
         return customMessages;
     }
 
+    // 获取所有自定义消息
     public static void setCustomMessages() {
         customMessages.clear();
         ConfigurationSection tips = config.getConfigurationSection("Tips");
@@ -165,6 +175,7 @@ public class DataManager {
         }
     }
 
+    // 重载所有数据 不包括玩家线程
     public static void reload() {
         RegionInformationReload.getInstance().saveDefaultConfig();
         RegionInformationReload.getInstance().reloadConfig();
@@ -173,6 +184,7 @@ public class DataManager {
         loadRegionsAndBiomes();
     }
 
+    // 加载自定义设置
     public static void loadData() {
         ConfigurationSection settings = config.getConfigurationSection("Settings");
         setPluginPrefix(settings.getString("pluginPrefix", "&7[&aRegionInfoRe&7]"));
@@ -185,6 +197,7 @@ public class DataManager {
         setCustomMessages();
     }
 
+    // 加载区域设置与生态群系设置
     public static void loadRegionsAndBiomes() {
         regions.clear();
         biomes.clear();
@@ -240,7 +253,7 @@ public class DataManager {
         }
     }
 
-
+    // 将一个region对象储存到配置文件中
     public static void saveRegion(Region newRegion) {
         ConfigurationSection regionsSection = config.getConfigurationSection("Regions");
         regionsSection.createSection(newRegion.getUniqueId());

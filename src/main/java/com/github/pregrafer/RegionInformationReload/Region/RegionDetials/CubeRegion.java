@@ -9,6 +9,9 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+/**
+ * 方形区域
+ */
 public class CubeRegion extends Region {
     private final Point point1;
     private final Point point2;

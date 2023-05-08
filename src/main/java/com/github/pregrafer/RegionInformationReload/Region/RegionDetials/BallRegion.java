@@ -6,6 +6,9 @@ import org.bukkit.Location;
 
 import java.util.List;
 
+/**
+ * 球形区域
+ */
 public class BallRegion extends Region {
     private final Point center;
     private final double radius;

@@ -15,7 +15,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * 玩家与区域相关事件处理
+ * 新建InfoManager对象处理信息
+ */
 public class PlayerEnterAndLeaveRegion implements Listener {
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEnterRegion(PlayerEnterRegionEvent playerEnterRegionEvent) {
         HashMap<String, String> playerRegionLoc = DataManager.getPlayerRegionLoc();
@@ -24,7 +29,9 @@ public class PlayerEnterAndLeaveRegion implements Listener {
         playerRegionLoc.put(player.getName(), region.getUniqueId());
         if (!region.getUniqueId().isEmpty()) {
             List<String> inInfos = new ArrayList<>(region.getInInfos());
+            // 处理颜色字符和占位符
             inInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s.replace("%name%", region.getRegionName())));
+            // 初始化对象传入信息并发送至玩家
             new InfoManager(player, inInfos).sendInfos();
         }
     }

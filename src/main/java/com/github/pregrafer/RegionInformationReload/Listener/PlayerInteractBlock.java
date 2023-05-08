@@ -11,6 +11,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+
+/**
+ * 监听玩家交互方块
+ * 用于创建模式下选取方块
+ */
 public class PlayerInteractBlock implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractEvent playerInteractEvent) {

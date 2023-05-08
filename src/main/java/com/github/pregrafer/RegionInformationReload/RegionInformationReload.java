@@ -14,7 +14,7 @@ import static org.bukkit.Bukkit.getPluginManager;
 
 /**
  * @author Kerwin
- * JDK 1.8_351
+ * JDK 1.8_361
  */
 
 public class RegionInformationReload extends JavaPlugin {
@@ -40,6 +40,7 @@ public class RegionInformationReload extends JavaPlugin {
         getLogger().info(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + " &bUnloading RegionInformationRe..."));
     }
 
+    // 注册监听器与命令 依赖
     private void register() {
         if (getCommand("regioninformationreload") != null) {
             getCommand("regioninformationreload").setExecutor(new MainCommand());

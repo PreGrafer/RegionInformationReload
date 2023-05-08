@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BiomeTask extends BukkitRunnable {
     Player player;
-    String biome, oldBiome, BCN, oldBCN;
+    String biome, oldBiome, biomeCustomName, oldBiomeCustomName;
     HashMap<String, String> biomes;
     List<String> biomeInfos;
 
@@ -21,14 +21,14 @@ public class BiomeTask extends BukkitRunnable {
         this.biome = player.getLocation().getBlock().getBiome().name();
         this.biomeInfos = DataManager.getBiomeInfos();
         this.biomes = DataManager.getBiomes();
-        this.BCN = this.biomes.get(biome);
+        this.biomeCustomName = this.biomes.get(biome);
     }
 
     private void updateBiome() {
         oldBiome = biome;
-        oldBCN = BCN;
+        oldBiomeCustomName = biomeCustomName;
         biome = player.getLocation().getBlock().getBiome().name();
-        BCN = biomes.get(biome);
+        biomeCustomName = biomes.get(biome);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class BiomeTask extends BukkitRunnable {
             if (b.equalsIgnoreCase(biome)) {
                 List<String> biomeInfos = new ArrayList<>(this.biomeInfos);
                 biomeInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&',
-                        s.replace("%newBiome%", BCN).replace("%oldBiome%", oldBCN)));
+                        s.replace("%newBiome%", biomeCustomName).replace("%oldBiome%", oldBiomeCustomName)));
                 new InfoManager(player, biomeInfos).sendInfos();
             }
         });

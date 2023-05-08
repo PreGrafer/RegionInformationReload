@@ -6,10 +6,14 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+/**
+ * 区域的基类
+ * 也用于处理未分类的错误区域
+ */
 public class Region {
-    private String uniqueId;
-    private String regionName;
-    private String world;
+    private String uniqueId; //唯一ID
+    private String regionName; //自定义名称
+    private String world; //所处世界
     private List<String> inInfos;
     private List<String> outInfos;
     private String type;
@@ -71,6 +75,7 @@ public class Region {
         this.outInfos = outInfos;
     }
 
+    // 重写toString方法
     @Override
     public String toString() {
         return "Region{\n" +
@@ -83,6 +88,7 @@ public class Region {
                 '}';
     }
 
+    // 区域呈现 考虑使用粒子效果 未完成
     public void draw(Player player) {
         player.sendMessage("Draw the region.");
     }

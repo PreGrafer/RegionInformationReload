@@ -7,6 +7,9 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+/**
+ * 用于信息发送
+ */
 public class InfoManager {
 
     private Player player;
@@ -17,12 +20,14 @@ public class InfoManager {
         this.infos = infos;
     }
 
+    // 更新InfoManager属性 现未使用
     public void updatePlayerInfo(Player player, List<String> infos) {
         this.player = player;
         this.infos = infos;
     }
 
     public void sendInfos() {
+        // 对每一条info匹配输出格式并调用方法
         infos.replaceAll(info -> info.replace("%player%", player.getName()));
         for (String info : infos) {
             MessageType type = getMessageType(info);
@@ -50,6 +55,7 @@ public class InfoManager {
         }
     }
 
+    //消息分类
     private MessageType getMessageType(String info) {
         if (info.contains("[MSG]")) {
             return MessageType.MSG;
@@ -65,6 +71,9 @@ public class InfoManager {
         return null;
     }
 
+    /*
+    下方为发送信息的具体实现与消息分类的枚举类
+     */
     private void sendMessage(String info) {
         String message = info.split("-", 2)[1];
         player.sendMessage(message);
@@ -95,15 +104,15 @@ public class InfoManager {
     }
 
     private enum MessageType {
-        //消息
+        // 消息
         MSG,
-        //标题
+        // 标题
         TITLE,
-        //活动栏
+        // 活动栏
         ACTION_BAR,
-        //玩家指令
+        // 玩家指令
         PCOM,
-        //后台指令
+        // 后台指令
         CCOM
     }
 }
