@@ -246,6 +246,9 @@ public class DataManager {
                         new Point(regionSection.getDouble("kickX"),
                                 regionSection.getDouble("kickY"),
                                 regionSection.getDouble("kickZ")),
+                        new Point(regionSection.getDouble("kickFacePitch"),
+                                0,
+                                regionSection.getDouble("kickFaceYaw")),
                         new Point(regionSection.getDouble("X1"),
                                 regionSection.getDouble("Y1"),
                                 regionSection.getDouble("Z1")),
@@ -264,6 +267,9 @@ public class DataManager {
                         new Point(regionSection.getDouble("kickX"),
                                 regionSection.getDouble("kickY"),
                                 regionSection.getDouble("kickZ")),
+                        new Point(regionSection.getDouble("kickFacePitch"),
+                                0,
+                                regionSection.getDouble("kickFaceYaw")),
                         new Point(regionSection.getDouble("centerX"),
                                 regionSection.getDouble("centerY"),
                                 regionSection.getDouble("centerZ")),
@@ -280,6 +286,9 @@ public class DataManager {
                         new Point(regionSection.getDouble("kickX"),
                                 regionSection.getDouble("kickY"),
                                 regionSection.getDouble("kickZ")),
+                        new Point(regionSection.getDouble("kickFacePitch"),
+                                0,
+                                regionSection.getDouble("kickFaceYaw")),
                         new Point(regionSection.getDouble("centerX"),
                                 regionSection.getDouble("centerY"),
                                 regionSection.getDouble("centerZ")),
@@ -293,6 +302,7 @@ public class DataManager {
                         "ERROR",
                         regionSection.getStringList("inInfos"),
                         regionSection.getStringList("outInfos"),
+                        new Point(),
                         new Point()
                 ));
             }
@@ -347,9 +357,12 @@ public class DataManager {
         data.put("inInfos", newRegion.getInInfos());
         data.put("outInfos", newRegion.getOutInfos());
         Point kickPoint = newRegion.getKickPoint();
+        Point kickFace = newRegion.getKickFace();
         data.put("kickX", kickPoint.getX());
         data.put("kickY", kickPoint.getY());
         data.put("kickZ", kickPoint.getZ());
+        data.put("kickFacePitch", kickFace.getX());
+        data.put("kickFaceYaw", kickFace.getZ());
 
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             newSectionOfRegion.set(entry.getKey(), entry.getValue());

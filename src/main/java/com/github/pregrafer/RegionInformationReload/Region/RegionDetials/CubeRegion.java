@@ -13,8 +13,8 @@ public class CubeRegion extends Region {
     private final Point point1;
     private final Point point2;
 
-    public CubeRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point kickPoint, Point point1, Point point2) {
-        super(uniqueId, regionName, world, type, inInfos, outInfos, kickPoint);
+    public CubeRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point kickPoint, Point kickFace, Point point1, Point point2) {
+        super(uniqueId, regionName, world, type, inInfos, outInfos, kickPoint, kickFace);
         this.point1 = new Point(Math.min(point1.getX(), point2.getX()), Math.min(point1.getY(), point2.getY()), Math.min(point1.getZ(), point2.getZ()));
         this.point2 = new Point(Math.max(point1.getX(), point2.getX()), Math.max(point1.getY(), point2.getY()), Math.max(point1.getZ(), point2.getZ()));
     }

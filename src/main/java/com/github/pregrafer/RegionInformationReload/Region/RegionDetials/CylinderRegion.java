@@ -11,8 +11,8 @@ public class CylinderRegion extends Region {
     private final double radius;
     private final double height;
 
-    public CylinderRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point kickPoint, Point center, double radius, double height) {
-        super(uniqueId, regionName, world, type, inInfos, outInfos, kickPoint);
+    public CylinderRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point kickPoint, Point kickFace, Point center, double radius, double height) {
+        super(uniqueId, regionName, world, type, inInfos, outInfos, kickPoint, kickFace);
         this.center = center;
         this.radius = radius;
         this.height = height;

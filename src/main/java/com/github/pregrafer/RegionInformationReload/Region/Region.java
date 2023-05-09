@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Region {
     private final Point kickPoint;
+    private final Point kickFace;
     private String uniqueId;
     private String regionName;
     private String world;
@@ -15,7 +16,7 @@ public class Region {
     private List<String> outInfos;
     private String type;
 
-    public Region(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point kickPoint) {
+    public Region(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point kickPoint, Point kickFace) {
         this.uniqueId = uniqueId;
         this.regionName = regionName;
         this.world = world;
@@ -23,6 +24,11 @@ public class Region {
         this.inInfos = inInfos;
         this.outInfos = outInfos;
         this.kickPoint = kickPoint;
+        this.kickFace = kickFace;
+    }
+
+    public Point getKickFace() {
+        return kickFace;
     }
 
     public Point getKickPoint() {

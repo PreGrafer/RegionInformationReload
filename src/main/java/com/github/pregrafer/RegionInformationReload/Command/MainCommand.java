@@ -113,6 +113,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                                     new ArrayList<>(),
                                     new ArrayList<>(),
                                     new Point(),
+                                    new Point(),
                                     new Point(centerPoint.getX() + 0.5, centerPoint.getY() + 0.5, centerPoint.getZ() + 0.5),
                                     DataManager.getDefaultRedius());
                             DataManager.saveRegion(ballRegion);
@@ -133,6 +134,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                                     new ArrayList<>(),
                                     new ArrayList<>(),
                                     new Point(),
+                                    new Point(),
                                     new Point(Math.min(centerPoint.getX(), secondPoint.getX()), Math.min(centerPoint.getY(), secondPoint.getY()), Math.min(centerPoint.getZ(), secondPoint.getZ())),
                                     new Point(Math.max(centerPoint.getX(), secondPoint.getX()) + 1.0, Math.max(centerPoint.getY(), secondPoint.getY()) + 1.0, Math.max(centerPoint.getZ(), secondPoint.getZ()) + 1.0));
                             DataManager.saveRegion(cubeRegion);
@@ -151,6 +153,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                                     "cylinder",
                                     new ArrayList<>(),
                                     new ArrayList<>(),
+                                    new Point(),
                                     new Point(),
                                     new Point(centerPoint.getX() + 0.5, centerPoint.getY() + 0.5, centerPoint.getZ() + 0.5),
                                     DataManager.getDefaultRedius(),
