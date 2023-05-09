@@ -26,9 +26,6 @@ import java.util.List;
 public class MainCommand implements CommandExecutor, TabExecutor {
     RegionInformationReload instance = RegionInformationReload.getInstance();
 
-    public MainCommand() {
-    }
-
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         Player player;
         if (strings.length == 1) {
