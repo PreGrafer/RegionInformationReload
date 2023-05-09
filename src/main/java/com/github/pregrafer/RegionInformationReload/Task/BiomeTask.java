@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class BiomeTask extends BukkitRunnable {
-    Player player;
+    final Player player;
     String biome, oldBiome, biomeCustomName, oldBiomeCustomName;
     HashMap<String, String> biomes;
     List<String> biomeInfos;

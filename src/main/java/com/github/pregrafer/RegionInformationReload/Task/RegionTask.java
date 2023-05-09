@@ -15,7 +15,7 @@ import static org.bukkit.Bukkit.getPluginManager;
 
 
 public class RegionTask extends BukkitRunnable {
-    Player player;
+    final Player player;
     Location location;
     String world;
     String oldRegionId = null;

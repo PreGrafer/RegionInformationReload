@@ -9,74 +9,56 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-/**
- * 方形区域
- */
 public class CubeRegion extends Region {
     private final Point point1;
     private final Point point2;
 
-    public CubeRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point point1, Point point2) {
-        super(uniqueId, regionName, world, type, inInfos, outInfos);
+    public CubeRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point kickPoint, Point point1, Point point2) {
+        super(uniqueId, regionName, world, type, inInfos, outInfos, kickPoint);
         this.point1 = new Point(Math.min(point1.getX(), point2.getX()), Math.min(point1.getY(), point2.getY()), Math.min(point1.getZ(), point2.getZ()));
         this.point2 = new Point(Math.max(point1.getX(), point2.getX()), Math.max(point1.getY(), point2.getY()), Math.max(point1.getZ(), point2.getZ()));
     }
 
     public Point getPoint1() {
-        return point1;
+        return this.point1;
     }
 
     public Point getPoint2() {
-        return point2;
+        return this.point2;
     }
 
-    @Override
     public boolean contains(Point point) {
         double x = point.getX();
         double y = point.getY();
         double z = point.getZ();
-        return x >= point1.getX() && x <= point2.getX()
-                && y >= point1.getY() && y <= point2.getY()
-                && z >= point1.getZ() && z <= point2.getZ();
+        return x >= this.point1.getX() && x <= this.point2.getX() && y >= this.point1.getY() && y <= this.point2.getY() && z >= this.point1.getZ() && z <= this.point2.getZ();
     }
 
-    @Override
     public boolean contains(double x, double y, double z) {
-        return x >= point1.getX() && x <= point2.getX()
-                && y >= point1.getY() && y <= point2.getY()
-                && z >= point1.getZ() && z <= point2.getZ();
+        return x >= this.point1.getX() && x <= this.point2.getX() && y >= this.point1.getY() && y <= this.point2.getY() && z >= this.point1.getZ() && z <= this.point2.getZ();
     }
 
-    @Override
     public boolean contains(Location location) {
         double x = location.getX();
         double y = location.getY();
         double z = location.getZ();
-        return x >= point1.getX() && x <= point2.getX()
-                && y >= point1.getY() && y <= point2.getY()
-                && z >= point1.getZ() && z <= point2.getZ();
+        return x >= this.point1.getX() && x <= this.point2.getX() && y >= this.point1.getY() && y <= this.point2.getY() && z >= this.point1.getZ() && z <= this.point2.getZ();
     }
 
     public double getVolume() {
-        double dx = point2.getX() - point1.getX();
-        double dy = point2.getY() - point1.getY();
-        double dz = point2.getZ() - point1.getZ();
+        double dx = this.point2.getX() - this.point1.getX();
+        double dy = this.point2.getY() - this.point1.getY();
+        double dz = this.point2.getZ() - this.point1.getZ();
         return dx * dy * dz;
     }
 
-    @Override
     public void draw(Player player) {
         World world = Bukkit.getWorld(this.getWorld());
-        Location loc1 = new Location(world, point1.getX(), point2.getY(), point2.getZ());
-        Location loc2 = new Location(world, point2.getX(), point1.getY(), point1.getZ());
+        new Location(world, this.point1.getX(), this.point2.getY(), this.point2.getZ());
+        new Location(world, this.point2.getX(), this.point1.getY(), this.point1.getZ());
     }
 
-    @Override
     public String toString() {
-        return super.toString() +
-                "\nDetails{\n" +
-                "Point1: (" + point1.getX() + "," + point1.getY() + "," + point1.getZ() + ")\n" +
-                "Point2: (" + point2.getX() + "," + point2.getY() + "," + point2.getZ() + ")\n" +
-                '}';
+        return super.toString() + "\nDetails{\nPoint1: (" + this.point1.getX() + "," + this.point1.getY() + "," + this.point1.getZ() + ")\nPoint2: (" + this.point2.getX() + "," + this.point2.getY() + "," + this.point2.getZ() + ")\n" + '}';
     }
 }

@@ -84,9 +84,9 @@ public class InfoManager {
         String[] split = message.split("\\:\\:", 5);
         String title = split[0];
         String subTitle = split[1];
-        int in = Integer.valueOf(split[2].trim());
-        int stay = Integer.valueOf(split[3].trim());
-        int out = Integer.valueOf(split[4].trim());
+        int in = Integer.parseInt(split[2].trim());
+        int stay = Integer.parseInt(split[3].trim());
+        int out = Integer.parseInt(split[4].trim());
         player.sendTitle(title, subTitle, in, stay, out);
     }
 

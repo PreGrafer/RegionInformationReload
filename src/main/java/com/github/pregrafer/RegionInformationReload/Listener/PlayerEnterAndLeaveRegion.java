@@ -5,7 +5,9 @@ import com.github.pregrafer.RegionInformationReload.Event.PlayerLeaveRegionEvent
 import com.github.pregrafer.RegionInformationReload.Manager.DataManager;
 import com.github.pregrafer.RegionInformationReload.Manager.InfoManager;
 import com.github.pregrafer.RegionInformationReload.Region.Region;
+import com.github.pregrafer.RegionInformationReload.Tool.Point;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,28 +17,38 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * 玩家与区域相关事件处理
- * 新建InfoManager对象处理信息
- */
 public class PlayerEnterAndLeaveRegion implements Listener {
+    public PlayerEnterAndLeaveRegion() {
+    }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(
+            priority = EventPriority.LOWEST
+    )
     public void onEnterRegion(PlayerEnterRegionEvent playerEnterRegionEvent) {
         HashMap<String, String> playerRegionLoc = DataManager.getPlayerRegionLoc();
         Player player = playerEnterRegionEvent.getPlayer();
         Region region = playerEnterRegionEvent.getRegion();
-        playerRegionLoc.put(player.getName(), region.getUniqueId());
-        if (!region.getUniqueId().isEmpty()) {
-            List<String> inInfos = new ArrayList<>(region.getInInfos());
-            // 处理颜色字符和占位符
-            inInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s.replace("%name%", region.getRegionName())));
-            // 初始化对象传入信息并发送至玩家
-            new InfoManager(player, inInfos).sendInfos();
+        if (player.hasPermission("RIR.enter." + region.getUniqueId())) {
+            playerRegionLoc.put(player.getName(), region.getUniqueId());
+            if (!region.getUniqueId().isEmpty()) {
+                List<String> inInfos = new ArrayList<>(region.getInInfos());
+                inInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s.replace("%name%", region.getRegionName())));
+                (new InfoManager(player, inInfos)).sendInfos();
+            }
+        } else {
+            Point kickPoint = region.getKickPoint();
+            player.teleport(new Location(player.getWorld(), kickPoint.getX(), kickPoint.getY(), kickPoint.getZ()));
+            List<String> kickInfos = new ArrayList<>(DataManager.getKickInfos());
+            kickInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s.replace("%name%", region.getRegionName())));
+
+            (new InfoManager(player, kickInfos)).sendInfos();
         }
+
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(
+            priority = EventPriority.LOWEST
+    )
     public void onLeaveRegion(PlayerLeaveRegionEvent playerLeaveRegionEvent) {
         HashMap<String, String> playerRegionLoc = DataManager.getPlayerRegionLoc();
         Player player = playerLeaveRegionEvent.getPlayer();

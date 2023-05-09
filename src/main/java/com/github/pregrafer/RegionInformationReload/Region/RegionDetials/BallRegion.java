@@ -6,50 +6,37 @@ import org.bukkit.Location;
 
 import java.util.List;
 
-/**
- * 球形区域
- */
 public class BallRegion extends Region {
     private final Point center;
     private final double radius;
 
-    public BallRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point center, double radius) {
-        super(uniqueId, regionName, world, type, inInfos, outInfos);
+    public BallRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point kickPoint, Point center, double radius) {
+        super(uniqueId, regionName, world, type, inInfos, outInfos, kickPoint);
         this.center = center;
         this.radius = radius;
     }
 
     public Point getCenter() {
-        return center;
+        return this.center;
     }
-
 
     public double getRadius() {
-        return radius;
+        return this.radius;
     }
 
-    @Override
     public boolean contains(Point point) {
-        return point.distance(center) <= radius;
+        return point.distance(this.center) <= this.radius;
     }
 
-    @Override
     public boolean contains(double x, double y, double z) {
-        return center.distance(x, y, z) <= radius;
+        return this.center.distance(x, y, z) <= this.radius;
     }
 
-    @Override
     public boolean contains(Location location) {
-        return center.distance(location.getX(), location.getY(), location.getZ()) <= radius;
+        return this.center.distance(location.getX(), location.getY(), location.getZ()) <= this.radius;
     }
 
-    @Override
     public String toString() {
-        return super.toString() +
-                "\nDetails{\n" +
-                "Center: (" + center.getX() + "," + center.getY() + "," + center.getZ() + ")\n" +
-                "radius: " + radius + '\n' +
-                '}';
+        return super.toString() + "\nDetails{\nCenter: (" + this.center.getX() + "," + this.center.getY() + "," + this.center.getZ() + ")\nradius: " + this.radius + '\n' + '}';
     }
-
 }

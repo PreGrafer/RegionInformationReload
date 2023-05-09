@@ -3,6 +3,7 @@ package com.github.pregrafer.RegionInformationReload.Manager;
 import com.github.pregrafer.RegionInformationReload.Region.Region;
 import com.github.pregrafer.RegionInformationReload.Region.RegionDetials.BallRegion;
 import com.github.pregrafer.RegionInformationReload.Region.RegionDetials.CubeRegion;
+import com.github.pregrafer.RegionInformationReload.Region.RegionDetials.CylinderRegion;
 import com.github.pregrafer.RegionInformationReload.RegionInformationReload;
 import com.github.pregrafer.RegionInformationReload.Tool.Point;
 import org.bukkit.configuration.ConfigurationSection;
@@ -32,12 +33,37 @@ public class DataManager {
     private static String tool; // 建造模式选取工具
     private static int biomeSpeed, regionSpeed; // 线程检测速度
     private static List<String> biomeInfos; // 生态群系自定义消息
+    private static List<String> kickInfos; // 踢出区域时自定义消息
     private static List<String> helpTips; // help指令下的提示
     private static boolean biomeHighAccuracy; // 生态群系高精度设置
     private static boolean biomeActive; // 初始化开启生态群系
     private static boolean regionActive; // 初始化开启区域
+    private static double defaultRedius, defaultHeight;
 
-    /*
+    public static List<String> getKickInfos() {
+        return kickInfos;
+    }
+
+    public static void setKickInfos(List<String> kickInfos) {
+        DataManager.kickInfos = kickInfos;
+    }
+
+    public static double getDefaultRedius() {
+        return defaultRedius;
+    }
+
+    public static void setDefaultRedius(double defaultRedius) {
+        DataManager.defaultRedius = defaultRedius;
+    }
+
+    public static double getDefaultHeight() {
+        return defaultHeight;
+    }
+
+    public static void setDefaultHeight(double defaultHeight) {
+        DataManager.defaultHeight = defaultHeight;
+    }
+/*
     下方大部分都是参数的getter与setter
      */
 
@@ -163,8 +189,6 @@ public class DataManager {
     public static void setCustomMessages() {
         customMessages.clear();
         ConfigurationSection tips = config.getConfigurationSection("Tips");
-        setBiomeInfos(tips.getStringList("Entry.biomeInfos"));
-        setHelpTips(tips.getStringList("Entry.helpTips"));
         Map<String, Object> tipsMap = tips.getConfigurationSection("Single").getValues(true);
         for (String i : tipsMap.keySet()) {
             if (tipsMap.get(i) != null) {
@@ -173,6 +197,9 @@ public class DataManager {
                 customMessages.put(i, i);
             }
         }
+        setBiomeInfos(tips.getStringList("Entry.biomeInfos"));
+        setKickInfos(tips.getStringList("Entry.kickInfos"));
+        setHelpTips(tips.getStringList("Entry.helpTips"));
     }
 
     // 重载所有数据 不包括玩家线程
@@ -194,6 +221,8 @@ public class DataManager {
         setBiomeActive(settings.getBoolean("activeOnPlayerJoin.biome", true));
         setRegionActive(settings.getBoolean("activeOnPlayerJoin.region", true));
         setTool(settings.getString("tool", "GOLD_HOE"));
+        setDefaultRedius(settings.getDouble("defaultRedius", 10.0));
+        setDefaultRedius(settings.getDouble("defaultHeight", 10.0));
         setCustomMessages();
     }
 
@@ -214,6 +243,9 @@ public class DataManager {
                         "cube",
                         regionSection.getStringList("inInfos"),
                         regionSection.getStringList("outInfos"),
+                        new Point(regionSection.getDouble("kickX"),
+                                regionSection.getDouble("kickY"),
+                                regionSection.getDouble("kickZ")),
                         new Point(regionSection.getDouble("X1"),
                                 regionSection.getDouble("Y1"),
                                 regionSection.getDouble("Z1")),
@@ -229,10 +261,30 @@ public class DataManager {
                         "ball",
                         regionSection.getStringList("inInfos"),
                         regionSection.getStringList("outInfos"),
+                        new Point(regionSection.getDouble("kickX"),
+                                regionSection.getDouble("kickY"),
+                                regionSection.getDouble("kickZ")),
                         new Point(regionSection.getDouble("centerX"),
                                 regionSection.getDouble("centerY"),
                                 regionSection.getDouble("centerZ")),
                         regionSection.getDouble("radius")
+                ));
+            } else if ("cylinder".equals(type)) {
+                regions.put(regionUniqueId, new CylinderRegion(
+                        regionUniqueId,
+                        regionSection.getString("name"),
+                        regionSection.getString("world"),
+                        "cylinder",
+                        regionSection.getStringList("inInfos"),
+                        regionSection.getStringList("outInfos"),
+                        new Point(regionSection.getDouble("kickX"),
+                                regionSection.getDouble("kickY"),
+                                regionSection.getDouble("kickZ")),
+                        new Point(regionSection.getDouble("centerX"),
+                                regionSection.getDouble("centerY"),
+                                regionSection.getDouble("centerZ")),
+                        regionSection.getDouble("radius"),
+                        regionSection.getDouble("height")
                 ));
             } else {
                 regions.put(regionUniqueId, new Region(regionUniqueId,
@@ -240,7 +292,8 @@ public class DataManager {
                         regionSection.getString("world"),
                         "ERROR",
                         regionSection.getStringList("inInfos"),
-                        regionSection.getStringList("outInfos")
+                        regionSection.getStringList("outInfos"),
+                        new Point()
                 ));
             }
         });
@@ -281,10 +334,22 @@ public class DataManager {
             data.put("centerY", center.getY());
             data.put("centerZ", center.getZ());
             data.put("radius", ((BallRegion) newRegion).getRadius());
+        } else if (newRegion instanceof CylinderRegion) {
+            Point center = ((CylinderRegion) newRegion).getCenter();
+
+            data.put("centerX", center.getX());
+            data.put("centerY", center.getY());
+            data.put("centerZ", center.getZ());
+            data.put("radius", ((CylinderRegion) newRegion).getRadius());
+            data.put("height", ((CylinderRegion) newRegion).getHeight());
         }
 
         data.put("inInfos", newRegion.getInInfos());
         data.put("outInfos", newRegion.getOutInfos());
+        Point kickPoint = newRegion.getKickPoint();
+        data.put("kickX", kickPoint.getX());
+        data.put("kickY", kickPoint.getY());
+        data.put("kickZ", kickPoint.getZ());
 
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             newSectionOfRegion.set(entry.getKey(), entry.getValue());

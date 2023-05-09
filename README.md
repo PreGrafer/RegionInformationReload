@@ -1,4 +1,4 @@
-# RegionInformationReload-v1.6.6
+# RegionInformationReload-v1.7.5
 
 # Create your region
 

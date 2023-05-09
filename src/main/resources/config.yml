@@ -14,6 +14,8 @@ Settings:
   #设置检测强度,数字越低消耗越高,建议生态群系设置为50或100，自定义区域设置为20 (整数！！！)
   biomeSpeed: 100
   regionSpeed: 20
+  defaultRedius: 10
+  defaultHeight: 10
 
 Tips:
   Single:
@@ -50,6 +52,8 @@ Tips:
     #[PCOM] 玩家指令 不用加/
     biomeInfos:
       - "[ACB]-&b%oldBiome%&a->&b%newBiome%"
+    regionKickInfos:
+      - "[TITLE]-::%name%::0::0::40"
     #帮助菜单
     helpTips:
       - "&7RegionInformationReload:"
@@ -87,6 +91,9 @@ Regions:
     #区域离开提示
     outInfos:
       - "[TITLE]-::%name%::0::0::40"
+    kickX: 480
+    kickY: 64
+    kickZ: 51
   region2:
     #区域名
     name: "&ctestBall"
@@ -107,6 +114,33 @@ Regions:
     #区域离开提示
     outInfos:
       - "[TITLE]-::%name%::0::0::40"
+    kickX: 480
+    kickY: 64
+    kickZ: 51
+  region3:
+    #区域名
+    name: "&ctestCylinder"
+    #世界
+    world: "world"
+    #区域种类
+    type: "cylinder"
+    #圆柱纵截面圆心点和圆的半径
+    centerX: 513.5
+    centerY: 60
+    centerZ: 51.5
+    radius: 5
+    height: 10
+    #区域进入提示
+    inInfos:
+      - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
+      #下面的实例是主标题为空的Title
+      - "[TITLE]-::%name%::10::20::10"
+    #区域离开提示
+    outInfos:
+      - "[TITLE]-::%name%::0::0::40"
+    kickX: 480
+    kickY: 64
+    kickZ: 51
 
 Biomes:
   #根据需求自行补齐吧~

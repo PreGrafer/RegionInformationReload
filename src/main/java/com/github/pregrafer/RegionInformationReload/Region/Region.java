@@ -6,29 +6,31 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-/**
- * 区域的基类
- * 也用于处理未分类的错误区域
- */
 public class Region {
-    private String uniqueId; //唯一ID
-    private String regionName; //自定义名称
-    private String world; //所处世界
+    private final Point kickPoint;
+    private String uniqueId;
+    private String regionName;
+    private String world;
     private List<String> inInfos;
     private List<String> outInfos;
     private String type;
 
-    public Region(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos) {
+    public Region(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point kickPoint) {
         this.uniqueId = uniqueId;
         this.regionName = regionName;
         this.world = world;
         this.type = type;
         this.inInfos = inInfos;
         this.outInfos = outInfos;
+        this.kickPoint = kickPoint;
+    }
+
+    public Point getKickPoint() {
+        return this.kickPoint;
     }
 
     public String getUniqueId() {
-        return uniqueId;
+        return this.uniqueId;
     }
 
     public void setUniqueId(String uniqueId) {
@@ -36,7 +38,7 @@ public class Region {
     }
 
     public String getRegionName() {
-        return regionName;
+        return this.regionName;
     }
 
     public void setRegionName(String regionName) {
@@ -44,7 +46,7 @@ public class Region {
     }
 
     public String getWorld() {
-        return world;
+        return this.world;
     }
 
     public void setWorld(String world) {
@@ -52,7 +54,7 @@ public class Region {
     }
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(String type) {
@@ -60,7 +62,7 @@ public class Region {
     }
 
     public List<String> getInInfos() {
-        return inInfos;
+        return this.inInfos;
     }
 
     public void setInInfos(List<String> inInfos) {
@@ -68,27 +70,17 @@ public class Region {
     }
 
     public List<String> getOutInfos() {
-        return outInfos;
+        return this.outInfos;
     }
 
     public void setOutInfos(List<String> outInfos) {
         this.outInfos = outInfos;
     }
 
-    // 重写toString方法
-    @Override
     public String toString() {
-        return "Region{\n" +
-                "uniqueId: " + uniqueId + '\n' +
-                "regionName: " + regionName + '\n' +
-                "world: " + world + '\n' +
-                "type: " + type + '\n' +
-                "inInfos: " + inInfos + '\n' +
-                "outInfos: " + outInfos + '\n' +
-                '}';
+        return "Region{\nuniqueId: " + this.uniqueId + '\n' + "regionName: " + this.regionName + '\n' + "world: " + this.world + '\n' + "type: " + this.type + '\n' + "inInfos: " + this.inInfos + '\n' + "outInfos: " + this.outInfos + '\n' + "kickPoint: (" + this.kickPoint.getX() + "," + this.kickPoint.getY() + "," + this.kickPoint.getZ() + ")\n" + '}';
     }
 
-    // 区域呈现 考虑使用粒子效果 未完成
     public void draw(Player player) {
         player.sendMessage("Draw the region.");
     }
