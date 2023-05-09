@@ -37,6 +37,10 @@ public class BallRegion extends Region {
     }
 
     public String toString() {
-        return super.toString() + "\nDetails{\nCenter: (" + this.center.getX() + "," + this.center.getY() + "," + this.center.getZ() + ")\nradius: " + this.radius + '\n' + '}';
+        return super.toString() +
+                "\nDetails{\n" +
+                "Center: (" + this.center.getX() + "," + this.center.getY() + "," + this.center.getZ() + ")\n" +
+                "radius: " + this.radius + '\n' +
+                '}';
     }
 }

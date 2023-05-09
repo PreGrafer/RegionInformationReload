@@ -17,13 +17,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * 处理玩家进入与离开区域监听器
+ */
 public class PlayerEnterAndLeaveRegion implements Listener {
     public PlayerEnterAndLeaveRegion() {
     }
 
-    @EventHandler(
-            priority = EventPriority.LOWEST
-    )
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onEnterRegion(PlayerEnterRegionEvent playerEnterRegionEvent) {
         HashMap<String, String> playerRegionLoc = DataManager.getPlayerRegionLoc();
         Player player = playerEnterRegionEvent.getPlayer();
@@ -40,22 +41,19 @@ public class PlayerEnterAndLeaveRegion implements Listener {
             player.teleport(new Location(player.getWorld(), kickPoint.getX(), kickPoint.getY(), kickPoint.getZ()));
             List<String> kickInfos = new ArrayList<>(DataManager.getKickInfos());
             kickInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s.replace("%name%", region.getRegionName())));
-
             (new InfoManager(player, kickInfos)).sendInfos();
         }
 
     }
 
-    @EventHandler(
-            priority = EventPriority.LOWEST
-    )
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onLeaveRegion(PlayerLeaveRegionEvent playerLeaveRegionEvent) {
         HashMap<String, String> playerRegionLoc = DataManager.getPlayerRegionLoc();
         Player player = playerLeaveRegionEvent.getPlayer();
         Region region = playerLeaveRegionEvent.getRegion();
         List<String> outInfos = new ArrayList<>(region.getOutInfos());
         outInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s.replace("%name%", region.getRegionName())));
-        new InfoManager(player, outInfos).sendInfos();
+        (new InfoManager(player, outInfos)).sendInfos();
         playerRegionLoc.remove(player.getName());
     }
 }

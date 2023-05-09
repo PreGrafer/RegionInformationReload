@@ -78,7 +78,14 @@ public class Region {
     }
 
     public String toString() {
-        return "Region{\nuniqueId: " + this.uniqueId + '\n' + "regionName: " + this.regionName + '\n' + "world: " + this.world + '\n' + "type: " + this.type + '\n' + "inInfos: " + this.inInfos + '\n' + "outInfos: " + this.outInfos + '\n' + "kickPoint: (" + this.kickPoint.getX() + "," + this.kickPoint.getY() + "," + this.kickPoint.getZ() + ")\n" + '}';
+        return "Region{\n" +
+                "uniqueId: " + this.uniqueId + '\n' +
+                "regionName: " + this.regionName + '\n' +
+                "world: " + this.world + '\n' +
+                "type: " + this.type + '\n' +
+                "inInfos: " + this.inInfos + '\n' +
+                "outInfos: " + this.outInfos + '\n' +
+                "kickPoint: (" + this.kickPoint.getX() + "," + this.kickPoint.getY() + "," + this.kickPoint.getZ() + ")\n" + '}';
     }
 
     public void draw(Player player) {

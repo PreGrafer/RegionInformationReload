@@ -59,6 +59,10 @@ public class CubeRegion extends Region {
     }
 
     public String toString() {
-        return super.toString() + "\nDetails{\nPoint1: (" + this.point1.getX() + "," + this.point1.getY() + "," + this.point1.getZ() + ")\nPoint2: (" + this.point2.getX() + "," + this.point2.getY() + "," + this.point2.getZ() + ")\n" + '}';
+        return super.toString() +
+                "\nDetails{\n" +
+                "Point1: (" + this.point1.getX() + "," + this.point1.getY() + "," + this.point1.getZ() + ")\n" +
+                "Point2: (" + this.point2.getX() + "," + this.point2.getY() + "," + this.point2.getZ() + ")\n" +
+                '}';
     }
 }

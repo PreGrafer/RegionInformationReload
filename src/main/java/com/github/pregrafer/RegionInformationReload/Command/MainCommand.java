@@ -20,6 +20,9 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 指令处理
+ */
 public class MainCommand implements CommandExecutor, TabExecutor {
     RegionInformationReload instance = RegionInformationReload.getInstance();
 
@@ -50,7 +53,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                     commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("noPermission")));
                 }
             } else if (strings[0].equalsIgnoreCase("help") && commandSender.hasPermission("RIR.help")) {
-                DataManager.getHelpTips().forEach((tip) -> commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', tip)));
+                DataManager.getHelpTips().forEach(tip -> commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', tip)));
             } else {
                 commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("wrongUsage")));
             }
@@ -198,7 +201,6 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                 tabHelper.add("region");
             }
         }
-
         return tabHelper;
     }
 }

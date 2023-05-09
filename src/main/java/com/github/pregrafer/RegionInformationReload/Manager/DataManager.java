@@ -38,7 +38,7 @@ public class DataManager {
     private static boolean biomeHighAccuracy; // 生态群系高精度设置
     private static boolean biomeActive; // 初始化开启生态群系
     private static boolean regionActive; // 初始化开启区域
-    private static double defaultRedius, defaultHeight;
+    private static double defaultRedius, defaultHeight; //默认半径与高度
 
     public static List<String> getKickInfos() {
         return kickInfos;

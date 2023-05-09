@@ -7,6 +7,9 @@ import org.bukkit.event.player.PlayerEvent;
 
 import javax.annotation.Nonnull;
 
+/**
+ * 玩家离开区域事件
+ */
 public class PlayerLeaveRegionEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
     private final Region region;

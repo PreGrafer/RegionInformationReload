@@ -7,6 +7,9 @@ import org.bukkit.event.player.PlayerEvent;
 
 import javax.annotation.Nonnull;
 
+/**
+ * 玩家进入区域事件
+ */
 public class PlayerEnterRegionEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
     private final Region region;
