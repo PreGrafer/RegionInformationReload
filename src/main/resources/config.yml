@@ -94,10 +94,11 @@ Regions:
     outInfos:
       - "[TITLE]-::%name%::0::0::40"
     #禁止进入区域时传送到...
+    kickWorld: "world"
     kickX: 480.5
     kickY: 64
     kickZ: 51.5
-    #禁止进入区域时传送后的视角 如果两个的值都为361 则保存玩家原本的视角
+    #禁止进入区域时传送后的视角
     kickFacePitch: 0
     kickFaceYaw: 0
   region2:
@@ -121,10 +122,11 @@ Regions:
     outInfos:
       - "[TITLE]-::%name%::0::0::40"
     #禁止进入区域时传送到...
+    kickWorld: "world"
     kickX: 480.5
     kickY: 64
     kickZ: 51.5
-    #禁止进入区域时传送后的视角 如果两个的值都为361 则保存玩家原本的视角
+    #禁止进入区域时传送后的视角
     kickFacePitch: 0
     kickFaceYaw: 0
   region3:
@@ -149,10 +151,11 @@ Regions:
     outInfos:
       - "[TITLE]-::%name%::0::0::40"
     #禁止进入区域时传送到...
+    kickWorld: "world"
     kickX: 480.5
     kickY: 64
     kickZ: 51.5
-    #禁止进入区域时传送后的视角 如果两个的值都为361 则保存玩家原本的视角
+    #禁止进入区域时传送后的视角
     kickFacePitch: 0
     kickFaceYaw: 0
 

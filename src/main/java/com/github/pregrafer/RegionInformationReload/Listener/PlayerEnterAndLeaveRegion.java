@@ -6,8 +6,10 @@ import com.github.pregrafer.RegionInformationReload.Manager.DataManager;
 import com.github.pregrafer.RegionInformationReload.Manager.InfoManager;
 import com.github.pregrafer.RegionInformationReload.Region.Region;
 import com.github.pregrafer.RegionInformationReload.Tool.Point;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -39,7 +41,11 @@ public class PlayerEnterAndLeaveRegion implements Listener {
         } else {
             Point kickPoint = region.getKickPoint();
             Point kickFace = region.getKickFace();
-            player.teleport(new Location(player.getWorld(), kickPoint.getX(), kickPoint.getY(), kickPoint.getZ(), (float) kickFace.getX(), (float) kickFace.getZ()));
+            World kickWorld = Bukkit.getWorld(region.getKickWorld());
+            if (!Bukkit.getWorlds().contains(kickWorld) || kickWorld == null) {
+                kickWorld = player.getWorld();
+            }
+            player.teleport(new Location(kickWorld, kickPoint.getX(), kickPoint.getY(), kickPoint.getZ(), (float) kickFace.getX(), (float) kickFace.getZ()));
             List<String> kickInfos = new ArrayList<>(DataManager.getKickInfos());
             kickInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s.replace("%name%", region.getRegionName())));
             (new InfoManager(player, kickInfos)).sendInfos();

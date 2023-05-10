@@ -243,12 +243,13 @@ public class DataManager {
                         "cube",
                         regionSection.getStringList("inInfos"),
                         regionSection.getStringList("outInfos"),
-                        new Point(regionSection.getDouble("kickX"),
-                                regionSection.getDouble("kickY"),
-                                regionSection.getDouble("kickZ")),
-                        new Point(regionSection.getDouble("kickFacePitch"),
+                        regionSection.getString("kickWorld"),
+                        new Point(regionSection.getDouble("kickX", 0),
+                                regionSection.getDouble("kickY", 0),
+                                regionSection.getDouble("kickZ", 0)),
+                        new Point(regionSection.getDouble("kickFacePitch", 0),
                                 0,
-                                regionSection.getDouble("kickFaceYaw")),
+                                regionSection.getDouble("kickFaceYaw", 0)),
                         new Point(regionSection.getDouble("X1"),
                                 regionSection.getDouble("Y1"),
                                 regionSection.getDouble("Z1")),
@@ -264,12 +265,13 @@ public class DataManager {
                         "ball",
                         regionSection.getStringList("inInfos"),
                         regionSection.getStringList("outInfos"),
-                        new Point(regionSection.getDouble("kickX"),
-                                regionSection.getDouble("kickY"),
-                                regionSection.getDouble("kickZ")),
-                        new Point(regionSection.getDouble("kickFacePitch"),
+                        regionSection.getString("kickWorld"),
+                        new Point(regionSection.getDouble("kickX", 0),
+                                regionSection.getDouble("kickY", 0),
+                                regionSection.getDouble("kickZ", 0)),
+                        new Point(regionSection.getDouble("kickFacePitch", 0),
                                 0,
-                                regionSection.getDouble("kickFaceYaw")),
+                                regionSection.getDouble("kickFaceYaw", 0)),
                         new Point(regionSection.getDouble("centerX"),
                                 regionSection.getDouble("centerY"),
                                 regionSection.getDouble("centerZ")),
@@ -283,12 +285,13 @@ public class DataManager {
                         "cylinder",
                         regionSection.getStringList("inInfos"),
                         regionSection.getStringList("outInfos"),
-                        new Point(regionSection.getDouble("kickX"),
-                                regionSection.getDouble("kickY"),
-                                regionSection.getDouble("kickZ")),
-                        new Point(regionSection.getDouble("kickFacePitch"),
+                        regionSection.getString("kickWorld"),
+                        new Point(regionSection.getDouble("kickX", 0),
+                                regionSection.getDouble("kickY", 0),
+                                regionSection.getDouble("kickZ", 0)),
+                        new Point(regionSection.getDouble("kickFacePitch", 0),
                                 0,
-                                regionSection.getDouble("kickFaceYaw")),
+                                regionSection.getDouble("kickFaceYaw", 0)),
                         new Point(regionSection.getDouble("centerX"),
                                 regionSection.getDouble("centerY"),
                                 regionSection.getDouble("centerZ")),
@@ -302,6 +305,7 @@ public class DataManager {
                         "ERROR",
                         regionSection.getStringList("inInfos"),
                         regionSection.getStringList("outInfos"),
+                        "ERROR",
                         new Point(),
                         new Point()
                 ));
@@ -356,6 +360,8 @@ public class DataManager {
 
         data.put("inInfos", newRegion.getInInfos());
         data.put("outInfos", newRegion.getOutInfos());
+        data.put("kickWorld", newRegion.getKickWorld());
+        
         Point kickPoint = newRegion.getKickPoint();
         Point kickFace = newRegion.getKickFace();
         data.put("kickX", kickPoint.getX());

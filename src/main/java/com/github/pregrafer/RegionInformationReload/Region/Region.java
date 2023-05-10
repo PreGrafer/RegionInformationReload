@@ -9,22 +9,27 @@ import java.util.List;
 public class Region {
     private final Point kickPoint;
     private final Point kickFace;
+    private final String kickWorld;
     private String uniqueId;
     private String regionName;
     private String world;
     private List<String> inInfos;
     private List<String> outInfos;
     private String type;
-
-    public Region(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point kickPoint, Point kickFace) {
+    public Region(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, String kickWorld, Point kickPoint, Point kickFace) {
         this.uniqueId = uniqueId;
         this.regionName = regionName;
         this.world = world;
         this.type = type;
         this.inInfos = inInfos;
         this.outInfos = outInfos;
+        this.kickWorld = kickWorld;
         this.kickPoint = kickPoint;
         this.kickFace = kickFace;
+    }
+
+    public String getKickWorld() {
+        return kickWorld;
     }
 
     public Point getKickFace() {

@@ -10,8 +10,8 @@ public class BallRegion extends Region {
     private final Point center;
     private final double radius;
 
-    public BallRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, Point kickPoint, Point kickFace, Point center, double radius) {
-        super(uniqueId, regionName, world, type, inInfos, outInfos, kickPoint, kickFace);
+    public BallRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, String kickWorld, Point kickPoint, Point kickFace, Point center, double radius) {
+        super(uniqueId, regionName, world, type, inInfos, outInfos, kickWorld, kickPoint, kickFace);
         this.center = center;
         this.radius = radius;
     }
