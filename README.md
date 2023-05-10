@@ -1,4 +1,4 @@
-# RegionInformationReload-v1.7.5
+# RegionInformationReload-v1.8.0
 
 # Create your region
 
@@ -13,6 +13,10 @@
 变量PlaceHolderAPI
 %RIR_region% 玩家所处区域
 %RIR_biome% 玩家所处生物群系
+
+区域进入权限 RIR.enter.regionUID
+
+创建cube区域时需要选取两个点 创建ball与cylinder只需要选取一个点
 
 # API Coming Soon...
 
