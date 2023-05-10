@@ -78,11 +78,11 @@ Regions:
     type: "cube"
     #正方形区域的两个对角点即可
     X1: 481
-    Y1: 69
-    Z1: 61
-    X2: 489
-    Y2: 64
-    Z2: 51
+    Y1: 63
+    Z1: 51
+    X2: 490
+    Y2: 69
+    Z2: 62
     #区域进入提示
     inInfos:
       - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
@@ -97,7 +97,7 @@ Regions:
     kickX: 480.5
     kickY: 64
     kickZ: 51.5
-    #禁止进入区域时传送后的视角
+    #禁止进入区域时传送后的视角 如果两个的值都为361 则保存玩家原本的视角
     kickFacePitch: 0
     kickFaceYaw: 0
   region2:
@@ -124,7 +124,7 @@ Regions:
     kickX: 480.5
     kickY: 64
     kickZ: 51.5
-    #禁止进入区域时传送后的视角
+    #禁止进入区域时传送后的视角 如果两个的值都为361 则保存玩家原本的视角
     kickFacePitch: 0
     kickFaceYaw: 0
   region3:
@@ -152,7 +152,7 @@ Regions:
     kickX: 480.5
     kickY: 64
     kickZ: 51.5
-    #禁止进入区域时传送后的视角
+    #禁止进入区域时传送后的视角 如果两个的值都为361 则保存玩家原本的视角
     kickFacePitch: 0
     kickFaceYaw: 0
 
