@@ -39,11 +39,7 @@ public class PlayerEnterAndLeaveRegion implements Listener {
         } else {
             Point kickPoint = region.getKickPoint();
             Point kickFace = region.getKickFace();
-            if (kickFace.getX() == 361 && kickFace.getZ() == 361) {
-                player.teleport(new Location(player.getWorld(), kickPoint.getX(), kickPoint.getY(), kickPoint.getZ(), player.getLocation().getPitch(), player.getLocation().getYaw()));
-            } else {
-                player.teleport(new Location(player.getWorld(), kickPoint.getX(), kickPoint.getY(), kickPoint.getZ(), (float) kickFace.getX(), (float) kickFace.getZ()));
-            }
+            player.teleport(new Location(player.getWorld(), kickPoint.getX(), kickPoint.getY(), kickPoint.getZ(), (float) kickFace.getX(), (float) kickFace.getZ()));
             List<String> kickInfos = new ArrayList<>(DataManager.getKickInfos());
             kickInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s.replace("%name%", region.getRegionName())));
             (new InfoManager(player, kickInfos)).sendInfos();
