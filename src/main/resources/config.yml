@@ -55,7 +55,7 @@ Tips:
       - "[ACB]-&b%oldBiome%&a->&b%newBiome%"
     #禁止进入区域时的提示
     kickInfos:
-      - "[MSG]-&a你没有权限进入 %name% &ac!"
+      - "[MSG]-&a你没有权限进入 %name% &a!"
     #帮助菜单
     helpTips:
       - "&7RegionInformationReload:"

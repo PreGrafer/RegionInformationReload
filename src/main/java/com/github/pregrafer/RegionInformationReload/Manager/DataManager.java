@@ -9,10 +9,7 @@ import com.github.pregrafer.RegionInformationReload.Tool.Point;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -27,7 +24,7 @@ public class DataManager {
     private static final HashMap<String, String> customMessages = new HashMap<>(); // 储存所有单条自定义信息
     private static final HashMap<String, Point> firstPointList = new HashMap<>(); // 储存建造模式下玩家选取的第一个点
     private static final HashMap<String, Point> secondPointList = new HashMap<>(); // 储存建造模式下玩家选取的第二个点
-    private static final List<String> createModeList = new ArrayList<>(); // 缓存建造模式下的玩家
+    private static final Set<String> createModeList = new HashSet<>(); // 缓存建造模式下的玩家
     private static FileConfiguration config = RegionInformationReload.getInstance().getConfig(); // 配置文件对象
     private static String pluginPrefix; // 插件信息前缀 无需操作 存在setter与getter
     private static String tool; // 建造模式选取工具
@@ -91,7 +88,7 @@ public class DataManager {
         return secondPointList;
     }
 
-    public static List<String> getCreateModeList() {
+    public static Set<String> getCreateModeList() {
         return createModeList;
     }
 
@@ -361,7 +358,7 @@ public class DataManager {
         data.put("inInfos", newRegion.getInInfos());
         data.put("outInfos", newRegion.getOutInfos());
         data.put("kickWorld", newRegion.getKickWorld());
-        
+
         Point kickPoint = newRegion.getKickPoint();
         Point kickFace = newRegion.getKickFace();
         data.put("kickX", kickPoint.getX());

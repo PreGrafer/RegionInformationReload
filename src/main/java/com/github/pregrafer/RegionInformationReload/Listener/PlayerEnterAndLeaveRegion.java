@@ -23,8 +23,6 @@ import java.util.List;
  * 处理玩家进入与离开区域监听器
  */
 public class PlayerEnterAndLeaveRegion implements Listener {
-    public PlayerEnterAndLeaveRegion() {
-    }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onEnterRegion(PlayerEnterRegionEvent playerEnterRegionEvent) {
@@ -33,6 +31,7 @@ public class PlayerEnterAndLeaveRegion implements Listener {
         Region region = playerEnterRegionEvent.getRegion();
         if (player.hasPermission("RIR.enter." + region.getUniqueId())) {
             playerRegionLoc.put(player.getName(), region.getUniqueId());
+            region.getPlayersInRegion().add(player.getName());
             if (!region.getUniqueId().isEmpty()) {
                 List<String> inInfos = new ArrayList<>(region.getInInfos());
                 inInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s.replace("%name%", region.getRegionName())));
@@ -42,7 +41,7 @@ public class PlayerEnterAndLeaveRegion implements Listener {
             Point kickPoint = region.getKickPoint();
             Point kickFace = region.getKickFace();
             World kickWorld = Bukkit.getWorld(region.getKickWorld());
-            if (!Bukkit.getWorlds().contains(kickWorld) || kickWorld == null) {
+            if (kickWorld == null || !Bukkit.getWorlds().contains(kickWorld)) {
                 kickWorld = player.getWorld();
             }
             player.teleport(new Location(kickWorld, kickPoint.getX(), kickPoint.getY(), kickPoint.getZ(), (float) kickFace.getX(), (float) kickFace.getZ()));
@@ -61,6 +60,7 @@ public class PlayerEnterAndLeaveRegion implements Listener {
         List<String> outInfos = new ArrayList<>(region.getOutInfos());
         outInfos.replaceAll(s -> ChatColor.translateAlternateColorCodes('&', s.replace("%name%", region.getRegionName())));
         (new InfoManager(player, outInfos)).sendInfos();
+        region.getPlayersInRegion().remove(player.getName());
         playerRegionLoc.remove(player.getName());
     }
 }

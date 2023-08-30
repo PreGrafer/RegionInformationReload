@@ -44,14 +44,18 @@ public class RegionTask extends BukkitRunnable {
                 if (region.getUniqueId().equals(oldRegionId)) {
                     return;
                 }
+                if (!Objects.isNull(oldRegionId)) {
+                    Region oldRegion = DataManager.getRegions().get(oldRegionId);
+                    getPluginManager().callEvent(new PlayerLeaveRegionEvent(player, oldRegion));
+                }
                 getPluginManager().callEvent(new PlayerEnterRegionEvent(player, region));
                 return;
             }
         }
         if (!Objects.isNull(oldRegionId)) {
             Region oldRegion = DataManager.getRegions().get(oldRegionId);
-            oldRegionId = null;
             getPluginManager().callEvent(new PlayerLeaveRegionEvent(player, oldRegion));
+            oldRegionId = null;
         }
     }
 }

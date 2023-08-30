@@ -48,6 +48,10 @@ public class PlayerJoinAndQuit implements Listener {
     public void onQuit(PlayerQuitEvent playerQuitEvent) {
         Player player = playerQuitEvent.getPlayer();
         BukkitScheduler scheduler = Bukkit.getScheduler();
+        String regionLoc = DataManager.getPlayerRegionLoc().get(player.getName());
+        if (regionLoc != null) {
+            DataManager.getRegions().get(regionLoc).getPlayersInRegion().remove(player.getName());
+        }
         if (DataManager.getBiomeTasks().containsKey(player.getName())) {
             scheduler.cancelTask(DataManager.getBiomeTasks().get(player.getName()));
             DataManager.getBiomeTasks().remove(player.getName());
@@ -56,5 +60,6 @@ public class PlayerJoinAndQuit implements Listener {
             scheduler.cancelTask(DataManager.getRegionTasks().get(player.getName()));
             DataManager.getRegionTasks().remove(player.getName());
         }
+
     }
 }
