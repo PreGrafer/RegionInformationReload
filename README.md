@@ -1,4 +1,4 @@
-# RegionInformationReload-v1.8.5
+# RegionInformationReload-v1.9.1
 
 # Create your region
 
@@ -17,6 +17,7 @@
 区域进入权限 RIR.enter.regionUID
 
 创建cube区域时需要选取两个点 创建ball与cylinder只需要选取一个点
+修复了部分bug
 
 # API Coming Soon...
 
