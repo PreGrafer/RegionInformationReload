@@ -12,15 +12,16 @@ public class Region {
     private final Point kickPoint;
     private final Point kickFace;
     private final String kickWorld;
-    private Set<String> playersInRegion = new HashSet<>();
-    private String uniqueId;
-    private String regionName;
-    private String world;
-    private List<String> inInfos;
-    private List<String> outInfos;
-    private String type;
+    private final Set<String> playersInRegion = new HashSet<>();
+    private final String uniqueId;
+    private final String regionName;
+    private final String world;
+    private final List<String> inInfos;
+    private final List<String> outInfos;
+    private final String type;
+    private final Set<String> banInteractItems;
 
-    public Region(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, String kickWorld, Point kickPoint, Point kickFace) {
+    public Region(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, String kickWorld, Point kickPoint, Point kickFace, Set<String> banInteractItems) {
         this.uniqueId = uniqueId;
         this.regionName = regionName;
         this.world = world;
@@ -30,14 +31,15 @@ public class Region {
         this.kickWorld = kickWorld;
         this.kickPoint = kickPoint;
         this.kickFace = kickFace;
+        this.banInteractItems = banInteractItems;
+    }
+
+    public Set<String> getBanInteractItems() {
+        return banInteractItems;
     }
 
     public Set<String> getPlayersInRegion() {
         return playersInRegion;
-    }
-
-    public void setPlayersInRegion(Set<String> playersInRegion) {
-        this.playersInRegion = playersInRegion;
     }
 
     public String getKickWorld() {
@@ -56,48 +58,24 @@ public class Region {
         return this.uniqueId;
     }
 
-    public void setUniqueId(String uniqueId) {
-        this.uniqueId = uniqueId;
-    }
-
     public String getRegionName() {
         return this.regionName;
-    }
-
-    public void setRegionName(String regionName) {
-        this.regionName = regionName;
     }
 
     public String getWorld() {
         return this.world;
     }
 
-    public void setWorld(String world) {
-        this.world = world;
-    }
-
     public String getType() {
         return this.type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public List<String> getInInfos() {
         return this.inInfos;
     }
 
-    public void setInInfos(List<String> inInfos) {
-        this.inInfos = inInfos;
-    }
-
     public List<String> getOutInfos() {
         return this.outInfos;
-    }
-
-    public void setOutInfos(List<String> outInfos) {
-        this.outInfos = outInfos;
     }
 
     public String toString() {

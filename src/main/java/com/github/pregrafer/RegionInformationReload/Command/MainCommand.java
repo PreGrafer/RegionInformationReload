@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -115,6 +116,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                                     player.getWorld().getName(),
                                     new Point(),
                                     new Point(),
+                                    new HashSet<>(),
                                     new Point(centerPoint.getX() + 0.5, centerPoint.getY() + 0.5, centerPoint.getZ() + 0.5),
                                     DataManager.getDefaultRedius());
                             DataManager.saveRegion(ballRegion);
@@ -137,6 +139,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                                     player.getWorld().getName(),
                                     new Point(),
                                     new Point(),
+                                    new HashSet<>(),
                                     new Point(Math.min(centerPoint.getX(), secondPoint.getX()), Math.min(centerPoint.getY(), secondPoint.getY()), Math.min(centerPoint.getZ(), secondPoint.getZ())),
                                     new Point(Math.max(centerPoint.getX(), secondPoint.getX()) + 1.0, Math.max(centerPoint.getY(), secondPoint.getY()) + 1.0, Math.max(centerPoint.getZ(), secondPoint.getZ()) + 1.0));
                             DataManager.saveRegion(cubeRegion);
@@ -158,6 +161,7 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                                     player.getWorld().getName(),
                                     new Point(),
                                     new Point(),
+                                    new HashSet<>(),
                                     new Point(centerPoint.getX() + 0.5, centerPoint.getY() + 0.5, centerPoint.getZ() + 0.5),
                                     DataManager.getDefaultRedius(),
                                     DataManager.getDefaultHeight());

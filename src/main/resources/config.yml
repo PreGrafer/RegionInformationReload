@@ -101,6 +101,7 @@ Regions:
     #禁止进入区域时传送后的视角
     kickFacePitch: 0
     kickFaceYaw: 0
+    banInteractItems: [ ]
   region2:
     #区域名
     name: "&ctestBall"
@@ -129,6 +130,7 @@ Regions:
     #禁止进入区域时传送后的视角
     kickFacePitch: 0
     kickFaceYaw: 0
+    banInteractItems: [ ]
   region3:
     #区域名
     name: "&ctestCylinder"
@@ -158,6 +160,7 @@ Regions:
     #禁止进入区域时传送后的视角
     kickFacePitch: 0
     kickFaceYaw: 0
+    banInteractItems: [ ]
 
 Biomes:
   #根据需求自行补齐吧~

@@ -10,3 +10,7 @@ commands:
     description: Main Command
     aliases:
       - rir
+  itemtype:
+    description: Get item type In Hand
+    aliases:
+      - it

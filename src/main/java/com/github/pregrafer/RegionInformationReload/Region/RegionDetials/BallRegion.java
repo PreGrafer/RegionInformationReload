@@ -5,13 +5,14 @@ import com.github.pregrafer.RegionInformationReload.Tool.Point;
 import org.bukkit.Location;
 
 import java.util.List;
+import java.util.Set;
 
 public class BallRegion extends Region {
     private final Point center;
     private final double radius;
 
-    public BallRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, String kickWorld, Point kickPoint, Point kickFace, Point center, double radius) {
-        super(uniqueId, regionName, world, type, inInfos, outInfos, kickWorld, kickPoint, kickFace);
+    public BallRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, String kickWorld, Point kickPoint, Point kickFace, Set<String> banInteractItems, Point center, double radius) {
+        super(uniqueId, regionName, world, type, inInfos, outInfos, kickWorld, kickPoint, kickFace, banInteractItems);
         this.center = center;
         this.radius = radius;
     }

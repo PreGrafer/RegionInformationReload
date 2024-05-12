@@ -11,12 +11,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
+import java.util.Set;
+
 
 /**
  * 监听玩家交互方块
  * 用于创建模式下选取方块
  */
-public class PlayerInteractBlock implements Listener {
+public class PlayerInteract implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onInteract(PlayerInteractEvent playerInteractEvent) {
         Player player = playerInteractEvent.getPlayer();
@@ -37,6 +39,17 @@ public class PlayerInteractBlock implements Listener {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("secondPoint").replace("%Point%", secondPoint.toString())));
             }
             playerInteractEvent.setCancelled(true);
+        }
+        Set<String> regions = DataManager.getPlayerRegionLoc().get(player.getName());
+        if (playerInteractEvent.getItem() != null && !regions.isEmpty()) {
+            for (String region : regions) {
+                Set<String> banInteractItems = DataManager.getRegions().get(region).getBanInteractItems();
+                String type = playerInteractEvent.getItem().getType().name();
+                if (banInteractItems.contains(type)) {
+                    playerInteractEvent.setCancelled(true);
+                    break;
+                }
+            }
         }
     }
 }

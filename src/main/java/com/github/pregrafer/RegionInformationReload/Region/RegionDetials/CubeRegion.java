@@ -8,13 +8,14 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Set;
 
 public class CubeRegion extends Region {
     private final Point point1;
     private final Point point2;
 
-    public CubeRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, String kickWorld, Point kickPoint, Point kickFace, Point point1, Point point2) {
-        super(uniqueId, regionName, world, type, inInfos, outInfos, kickWorld, kickPoint, kickFace);
+    public CubeRegion(String uniqueId, String regionName, String world, String type, List<String> inInfos, List<String> outInfos, String kickWorld, Point kickPoint, Point kickFace, Set<String> banInteractItems, Point point1, Point point2) {
+        super(uniqueId, regionName, world, type, inInfos, outInfos, kickWorld, kickPoint, kickFace, banInteractItems);
         this.point1 = new Point(Math.min(point1.getX(), point2.getX()), Math.min(point1.getY(), point2.getY()), Math.min(point1.getZ(), point2.getZ()));
         this.point2 = new Point(Math.max(point1.getX(), point2.getX()), Math.max(point1.getY(), point2.getY()), Math.max(point1.getZ(), point2.getZ()));
     }

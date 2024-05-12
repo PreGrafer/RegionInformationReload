@@ -1,8 +1,9 @@
 package com.github.pregrafer.RegionInformationReload;
 
+import com.github.pregrafer.RegionInformationReload.Command.ItemTypeCommand;
 import com.github.pregrafer.RegionInformationReload.Command.MainCommand;
 import com.github.pregrafer.RegionInformationReload.Listener.PlayerEnterAndLeaveRegion;
-import com.github.pregrafer.RegionInformationReload.Listener.PlayerInteractBlock;
+import com.github.pregrafer.RegionInformationReload.Listener.PlayerInteract;
 import com.github.pregrafer.RegionInformationReload.Listener.PlayerJoinAndQuit;
 import com.github.pregrafer.RegionInformationReload.Manager.DataManager;
 import com.github.pregrafer.RegionInformationReload.Manager.PlaceHolderManager;
@@ -45,8 +46,11 @@ public class RegionInformationReload extends JavaPlugin {
         if (getCommand("regioninformationreload") != null) {
             getCommand("regioninformationreload").setExecutor(new MainCommand());
         }
+        if (getCommand("itemtype") != null) {
+            getCommand("itemtype").setExecutor(new ItemTypeCommand());
+        }
         getPluginManager().registerEvents(new PlayerEnterAndLeaveRegion(), instance);
-        getPluginManager().registerEvents(new PlayerInteractBlock(), instance);
+        getPluginManager().registerEvents(new PlayerInteract(), instance);
         getPluginManager().registerEvents(new PlayerJoinAndQuit(), instance);
         if (getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceHolderManager().register();

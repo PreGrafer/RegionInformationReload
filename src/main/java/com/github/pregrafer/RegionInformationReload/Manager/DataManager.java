@@ -239,6 +239,7 @@ public class DataManager {
             Point kickFace = new Point(regionSection.getDouble("kickFacePitch", 0),
                     0,
                     regionSection.getDouble("kickFaceYaw", 0));
+            Set<String> banInteractItems = new HashSet<>(regionSection.getStringList("banInteractItems"));
 
             if ("cube".equals(type)) {
                 Point point1 = new Point(regionSection.getDouble("X1"),
@@ -248,14 +249,14 @@ public class DataManager {
                         regionSection.getDouble("Y2"),
                         regionSection.getDouble("Z2"));
                 regions.put(regionUniqueId, new CubeRegion(
-                        regionUniqueId, name, world, "cube", inInfos, outInfos, kickWorld, kickPoint, kickFace, point1, point2));
+                        regionUniqueId, name, world, "cube", inInfos, outInfos, kickWorld, kickPoint, kickFace, banInteractItems, point1, point2));
             } else if ("ball".equals(type)) {
                 Point center = new Point(regionSection.getDouble("centerX"),
                         regionSection.getDouble("centerY"),
                         regionSection.getDouble("centerZ"));
                 double radius = regionSection.getDouble("radius");
                 regions.put(regionUniqueId, new BallRegion(
-                        regionUniqueId, name, world, "ball", inInfos, outInfos, kickWorld, kickPoint, kickFace, center, radius));
+                        regionUniqueId, name, world, "ball", inInfos, outInfos, kickWorld, kickPoint, kickFace, banInteractItems, center, radius));
             } else if ("cylinder".equals(type)) {
                 Point center = new Point(regionSection.getDouble("centerX"),
                         regionSection.getDouble("centerY"),
@@ -263,9 +264,9 @@ public class DataManager {
                 double radius = regionSection.getDouble("radius");
                 double height = regionSection.getDouble("height");
                 regions.put(regionUniqueId, new CylinderRegion(
-                        regionUniqueId, name, world, "cylinder", inInfos, outInfos, kickWorld, kickPoint, kickFace, center, radius, height));
+                        regionUniqueId, name, world, "cylinder", inInfos, outInfos, kickWorld, kickPoint, kickFace, banInteractItems, center, radius, height));
             } else {
-                regions.put(regionUniqueId, new Region(regionUniqueId, name, world, "ERROR", inInfos, outInfos, "ERROR", new Point(), new Point()));
+                regions.put(regionUniqueId, new Region(regionUniqueId, name, world, "ERROR", inInfos, outInfos, "ERROR", new Point(), new Point(), banInteractItems));
             }
         });
         for (String i : biomesMap.keySet()) {
@@ -287,7 +288,18 @@ public class DataManager {
         data.put("name", newRegion.getRegionName());
         data.put("world", newRegion.getWorld());
         data.put("type", newRegion.getType());
-
+        data.put("inInfos", newRegion.getInInfos());
+        data.put("outInfos", newRegion.getOutInfos());
+        data.put("kickWorld", newRegion.getKickWorld());
+        Point kickPoint = newRegion.getKickPoint();
+        Point kickFace = newRegion.getKickFace();
+        data.put("kickX", kickPoint.getX());
+        data.put("kickY", kickPoint.getY());
+        data.put("kickZ", kickPoint.getZ());
+        data.put("kickFacePitch", kickFace.getX());
+        data.put("kickFaceYaw", kickFace.getZ());
+        data.put("banInteractItems", newRegion.getBanInteractItems());
+        
         if (newRegion instanceof CubeRegion) {
             Point point1 = ((CubeRegion) newRegion).getPoint1();
             Point point2 = ((CubeRegion) newRegion).getPoint2();
@@ -314,18 +326,6 @@ public class DataManager {
             data.put("radius", ((CylinderRegion) newRegion).getRadius());
             data.put("height", ((CylinderRegion) newRegion).getHeight());
         }
-
-        data.put("inInfos", newRegion.getInInfos());
-        data.put("outInfos", newRegion.getOutInfos());
-        data.put("kickWorld", newRegion.getKickWorld());
-
-        Point kickPoint = newRegion.getKickPoint();
-        Point kickFace = newRegion.getKickFace();
-        data.put("kickX", kickPoint.getX());
-        data.put("kickY", kickPoint.getY());
-        data.put("kickZ", kickPoint.getZ());
-        data.put("kickFacePitch", kickFace.getX());
-        data.put("kickFaceYaw", kickFace.getZ());
 
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             newSectionOfRegion.set(entry.getKey(), entry.getValue());
