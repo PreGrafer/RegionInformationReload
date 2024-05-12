@@ -9,7 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.bukkit.Bukkit.getPluginManager;
 
@@ -18,13 +19,14 @@ public class RegionTask extends BukkitRunnable {
     final Player player;
     Location location;
     String world;
-    String oldRegionId = null;
+    Set<String> oldRegionId = new HashSet<>();
 
 
     public RegionTask(Player player) {
         this.player = player;
         this.location = player.getLocation();
         this.world = location.getWorld().getName();
+        DataManager.getPlayerRegionLoc().put(player.getName(), new HashSet<>());
     }
 
     private void updateLocation() {
@@ -35,27 +37,27 @@ public class RegionTask extends BukkitRunnable {
     @Override
     public void run() {
         updateLocation();
-        HashMap<String, String> playerRegionLoc = DataManager.getPlayerRegionLoc();
+        HashMap<String, Set<String>> playerRegionLoc = DataManager.getPlayerRegionLoc();
+        Set<String> newRegionId = new HashSet<>();
         if (playerRegionLoc.containsKey(player.getName())) {
             oldRegionId = playerRegionLoc.get(player.getName());
         }
         for (Region region : DataManager.getRegions().values()) {
             if (region.getWorld().equalsIgnoreCase(world) && region.contains(location)) {
-                if (region.getUniqueId().equals(oldRegionId)) {
-                    return;
-                }
-                if (!Objects.isNull(oldRegionId)) {
-                    Region oldRegion = DataManager.getRegions().get(oldRegionId);
-                    getPluginManager().callEvent(new PlayerLeaveRegionEvent(player, oldRegion));
-                }
-                getPluginManager().callEvent(new PlayerEnterRegionEvent(player, region));
-                return;
+                newRegionId.add(region.getUniqueId());
             }
         }
-        if (!Objects.isNull(oldRegionId)) {
-            Region oldRegion = DataManager.getRegions().get(oldRegionId);
-            getPluginManager().callEvent(new PlayerLeaveRegionEvent(player, oldRegion));
-            oldRegionId = null;
+        for (String regionId : newRegionId) {
+            if (!oldRegionId.contains(regionId)) {
+                Region newRegion = DataManager.getRegions().get(regionId);
+                getPluginManager().callEvent(new PlayerEnterRegionEvent(player, newRegion));
+            }
+        }
+        for (String regionId : oldRegionId) {
+            if (!newRegionId.contains(regionId)) {
+                Region oldRegion = DataManager.getRegions().get(regionId);
+                getPluginManager().callEvent(new PlayerLeaveRegionEvent(player, oldRegion));
+            }
         }
     }
 }

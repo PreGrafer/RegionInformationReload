@@ -13,6 +13,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitScheduler;
 
+import java.util.Set;
+
 /**
  * 插件中只涉及了两处线程操作
  * 这是其中一处 另一处位于MainCommand.java源码
@@ -48,10 +50,13 @@ public class PlayerJoinAndQuit implements Listener {
     public void onQuit(PlayerQuitEvent playerQuitEvent) {
         Player player = playerQuitEvent.getPlayer();
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        String regionLoc = DataManager.getPlayerRegionLoc().get(player.getName());
-        if (regionLoc != null) {
-            DataManager.getRegions().get(regionLoc).getPlayersInRegion().remove(player.getName());
+        Set<String> regionLoc = DataManager.getPlayerRegionLoc().get(player.getName());
+        if (!regionLoc.isEmpty()) {
+            for (String regionId : regionLoc) {
+                DataManager.getRegions().get(regionId).getPlayersInRegion().remove(player.getName());
+            }
         }
+        DataManager.getPlayerRegionLoc().remove(player.getName());
         if (DataManager.getBiomeTasks().containsKey(player.getName())) {
             scheduler.cancelTask(DataManager.getBiomeTasks().get(player.getName()));
             DataManager.getBiomeTasks().remove(player.getName());
@@ -60,6 +65,5 @@ public class PlayerJoinAndQuit implements Listener {
             scheduler.cancelTask(DataManager.getRegionTasks().get(player.getName()));
             DataManager.getRegionTasks().remove(player.getName());
         }
-
     }
 }

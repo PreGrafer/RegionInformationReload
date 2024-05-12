@@ -1,4 +1,4 @@
-# RegionInformationReload-v1.9.1
+# RegionInformationReload-v2.0.0
 
 # Create your region
 
@@ -10,6 +10,13 @@
       /rir reload - 重载插件 #RIR.admin
       /rir switch <biome/region> - 打开/关闭功能 #RIR.switch.biome/region
 
+# 介绍
+
+RegionInformationReload是一个基于区域的插件，可以在区域内显示信息。
+
+## 最近更新
+
+区域嵌套已完成！
 变量PlaceHolderAPI
 %RIR_region% 玩家所处区域
 %RIR_biome% 玩家所处生物群系

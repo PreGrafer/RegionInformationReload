@@ -16,7 +16,7 @@ import java.util.*;
  * 管理所有数据
  */
 public class DataManager {
-    private static final HashMap<String, String> playerRegionLoc = new HashMap<>(); // 储存玩家所处区域
+    private static final HashMap<String, Set<String>> playerRegionLoc = new HashMap<>(); // 储存玩家所处区域
     private static final HashMap<String, Integer> biomeTasks = new HashMap<>(); // 储存玩家名与生态群系线程号
     private static final HashMap<String, Integer> regionTasks = new HashMap<>(); // 储存玩家名与区域线程号
     private static final HashMap<String, String> biomes = new HashMap<>(); // 储存生态群系ID与自定义名称
@@ -56,11 +56,7 @@ public class DataManager {
     public static double getDefaultHeight() {
         return defaultHeight;
     }
-
-    public static void setDefaultHeight(double defaultHeight) {
-        DataManager.defaultHeight = defaultHeight;
-    }
-/*
+    /*
     下方大部分都是参数的getter与setter
      */
 
@@ -158,7 +154,7 @@ public class DataManager {
         DataManager.regionSpeed = regionSpeed;
     }
 
-    public static HashMap<String, String> getPlayerRegionLoc() {
+    public static HashMap<String, Set<String>> getPlayerRegionLoc() {
         return playerRegionLoc;
     }
 
@@ -232,80 +228,44 @@ public class DataManager {
         regionsSection.getKeys(false).stream().forEach(regionUniqueId -> {
             ConfigurationSection regionSection = regionsSection.getConfigurationSection(regionUniqueId);
             String type = regionSection.getString("type");
+            String name = regionSection.getString("name");
+            String world = regionSection.getString("world");
+            List<String> inInfos = regionSection.getStringList("inInfos");
+            List<String> outInfos = regionSection.getStringList("outInfos");
+            String kickWorld = regionSection.getString("kickWorld");
+            Point kickPoint = new Point(regionSection.getDouble("kickX", 0),
+                    regionSection.getDouble("kickY", 0),
+                    regionSection.getDouble("kickZ", 0));
+            Point kickFace = new Point(regionSection.getDouble("kickFacePitch", 0),
+                    0,
+                    regionSection.getDouble("kickFaceYaw", 0));
+
             if ("cube".equals(type)) {
+                Point point1 = new Point(regionSection.getDouble("X1"),
+                        regionSection.getDouble("Y1"),
+                        regionSection.getDouble("Z1"));
+                Point point2 = new Point(regionSection.getDouble("X2"),
+                        regionSection.getDouble("Y2"),
+                        regionSection.getDouble("Z2"));
                 regions.put(regionUniqueId, new CubeRegion(
-                        regionUniqueId,
-                        regionSection.getString("name"),
-                        regionSection.getString("world"),
-                        "cube",
-                        regionSection.getStringList("inInfos"),
-                        regionSection.getStringList("outInfos"),
-                        regionSection.getString("kickWorld"),
-                        new Point(regionSection.getDouble("kickX", 0),
-                                regionSection.getDouble("kickY", 0),
-                                regionSection.getDouble("kickZ", 0)),
-                        new Point(regionSection.getDouble("kickFacePitch", 0),
-                                0,
-                                regionSection.getDouble("kickFaceYaw", 0)),
-                        new Point(regionSection.getDouble("X1"),
-                                regionSection.getDouble("Y1"),
-                                regionSection.getDouble("Z1")),
-                        new Point(regionSection.getDouble("X2"),
-                                regionSection.getDouble("Y2"),
-                                regionSection.getDouble("Z2"))
-                ));
+                        regionUniqueId, name, world, "cube", inInfos, outInfos, kickWorld, kickPoint, kickFace, point1, point2));
             } else if ("ball".equals(type)) {
+                Point center = new Point(regionSection.getDouble("centerX"),
+                        regionSection.getDouble("centerY"),
+                        regionSection.getDouble("centerZ"));
+                double radius = regionSection.getDouble("radius");
                 regions.put(regionUniqueId, new BallRegion(
-                        regionUniqueId,
-                        regionSection.getString("name"),
-                        regionSection.getString("world"),
-                        "ball",
-                        regionSection.getStringList("inInfos"),
-                        regionSection.getStringList("outInfos"),
-                        regionSection.getString("kickWorld"),
-                        new Point(regionSection.getDouble("kickX", 0),
-                                regionSection.getDouble("kickY", 0),
-                                regionSection.getDouble("kickZ", 0)),
-                        new Point(regionSection.getDouble("kickFacePitch", 0),
-                                0,
-                                regionSection.getDouble("kickFaceYaw", 0)),
-                        new Point(regionSection.getDouble("centerX"),
-                                regionSection.getDouble("centerY"),
-                                regionSection.getDouble("centerZ")),
-                        regionSection.getDouble("radius")
-                ));
+                        regionUniqueId, name, world, "ball", inInfos, outInfos, kickWorld, kickPoint, kickFace, center, radius));
             } else if ("cylinder".equals(type)) {
+                Point center = new Point(regionSection.getDouble("centerX"),
+                        regionSection.getDouble("centerY"),
+                        regionSection.getDouble("centerZ"));
+                double radius = regionSection.getDouble("radius");
+                double height = regionSection.getDouble("height");
                 regions.put(regionUniqueId, new CylinderRegion(
-                        regionUniqueId,
-                        regionSection.getString("name"),
-                        regionSection.getString("world"),
-                        "cylinder",
-                        regionSection.getStringList("inInfos"),
-                        regionSection.getStringList("outInfos"),
-                        regionSection.getString("kickWorld"),
-                        new Point(regionSection.getDouble("kickX", 0),
-                                regionSection.getDouble("kickY", 0),
-                                regionSection.getDouble("kickZ", 0)),
-                        new Point(regionSection.getDouble("kickFacePitch", 0),
-                                0,
-                                regionSection.getDouble("kickFaceYaw", 0)),
-                        new Point(regionSection.getDouble("centerX"),
-                                regionSection.getDouble("centerY"),
-                                regionSection.getDouble("centerZ")),
-                        regionSection.getDouble("radius"),
-                        regionSection.getDouble("height")
-                ));
+                        regionUniqueId, name, world, "cylinder", inInfos, outInfos, kickWorld, kickPoint, kickFace, center, radius, height));
             } else {
-                regions.put(regionUniqueId, new Region(regionUniqueId,
-                        regionSection.getString("name"),
-                        regionSection.getString("world"),
-                        "ERROR",
-                        regionSection.getStringList("inInfos"),
-                        regionSection.getStringList("outInfos"),
-                        "ERROR",
-                        new Point(),
-                        new Point()
-                ));
+                regions.put(regionUniqueId, new Region(regionUniqueId, name, world, "ERROR", inInfos, outInfos, "ERROR", new Point(), new Point()));
             }
         });
         for (String i : biomesMap.keySet()) {
