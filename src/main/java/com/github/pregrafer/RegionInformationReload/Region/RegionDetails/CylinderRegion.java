@@ -1,13 +1,18 @@
-package com.github.pregrafer.RegionInformationReload.Region.RegionDetials;
+package com.github.pregrafer.RegionInformationReload.Region.RegionDetails;
 
 import com.github.pregrafer.RegionInformationReload.Region.Region;
 import com.github.pregrafer.RegionInformationReload.Tool.Point;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Set;
 
 public class CylinderRegion extends Region {
+    private static final double PARTICLE_SPACING = 0.8D;
     private final Point center;
     private final double radius;
     private final double height;
@@ -41,6 +46,37 @@ public class CylinderRegion extends Region {
 
     public boolean contains(Location location) {
         return this.center.distance(location.getX(), this.center.getY(), location.getZ()) <= this.radius && this.center.getY() <= location.getY() && location.getY() <= this.center.getY() + this.height;
+    }
+
+    @Override
+    public void draw(Player player) {
+        World world = Bukkit.getWorld(this.getWorld());
+        if (world == null || !player.getWorld().equals(world) || radius <= 0 || height <= 0) {
+            return;
+        }
+
+        int circleSteps = Math.max(20, (int) Math.ceil(2.0D * Math.PI * radius / PARTICLE_SPACING));
+        int heightSteps = Math.max(1, (int) Math.ceil(height / PARTICLE_SPACING));
+        double baseY = center.getY();
+        double topY = center.getY() + height;
+
+        for (int i = 0; i <= circleSteps; i++) {
+            double angle = (2.0D * Math.PI * i) / (double) circleSteps;
+            double offsetX = Math.cos(angle) * radius;
+            double offsetZ = Math.sin(angle) * radius;
+            double x = center.getX() + offsetX;
+            double z = center.getZ() + offsetZ;
+
+            player.spawnParticle(Particle.VILLAGER_HAPPY, new Location(world, x, baseY, z), 1, 0.0, 0.0, 0.0, 0.0);
+            player.spawnParticle(Particle.VILLAGER_HAPPY, new Location(world, x, topY, z), 1, 0.0, 0.0, 0.0, 0.0);
+
+            if (i % Math.max(1, circleSteps / 12) == 0) {
+                for (int h = 0; h <= heightSteps; h++) {
+                    double y = baseY + ((double) h / (double) heightSteps) * height;
+                    player.spawnParticle(Particle.VILLAGER_HAPPY, new Location(world, x, y, z), 1, 0.0, 0.0, 0.0, 0.0);
+                }
+            }
+        }
     }
 
     public String toString() {

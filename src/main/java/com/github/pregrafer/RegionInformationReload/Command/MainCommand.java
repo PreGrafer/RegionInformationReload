@@ -1,21 +1,17 @@
 package com.github.pregrafer.RegionInformationReload.Command;
 
 import com.github.pregrafer.RegionInformationReload.Manager.DataManager;
-import com.github.pregrafer.RegionInformationReload.Region.RegionDetials.BallRegion;
-import com.github.pregrafer.RegionInformationReload.Region.RegionDetials.CubeRegion;
-import com.github.pregrafer.RegionInformationReload.Region.RegionDetials.CylinderRegion;
+import com.github.pregrafer.RegionInformationReload.Region.RegionDetails.BallRegion;
+import com.github.pregrafer.RegionInformationReload.Region.RegionDetails.CubeRegion;
+import com.github.pregrafer.RegionInformationReload.Region.RegionDetails.CylinderRegion;
 import com.github.pregrafer.RegionInformationReload.RegionInformationReload;
-import com.github.pregrafer.RegionInformationReload.Task.BiomeTask;
-import com.github.pregrafer.RegionInformationReload.Task.RegionTask;
 import com.github.pregrafer.RegionInformationReload.Tool.Point;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -56,47 +52,62 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                 commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("wrongUsage")));
             }
         } else if (strings.length == 2) {
-            if (strings[0].equalsIgnoreCase("check") && DataManager.getRegions().containsKey(strings[1])) {
-                commandSender.sendMessage(DataManager.getRegions().get(strings[1]).toString());
-            } else if (strings[0].equalsIgnoreCase("switch") && commandSender instanceof Player) {
+            if (strings[0].equalsIgnoreCase("draw") && commandSender instanceof Player) {
                 player = (Player) commandSender;
-                BukkitScheduler scheduler = Bukkit.getScheduler();
-                if (strings[1].equalsIgnoreCase("biome")) {
-                    if (player.hasPermission("RIR.switch.biome")) {
-                        if (DataManager.getBiomeTasks().containsKey(player.getName())) {
-                            scheduler.cancelTask(DataManager.getBiomeTasks().get(player.getName()));
-                            DataManager.getBiomeTasks().remove(player.getName());
-                            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("biomeSwitch").replace("%Action%", "关闭")));
-                        } else {
-                            BiomeTask biomeTask = new BiomeTask(player);
-                            biomeTask.runTaskTimer(this.instance, DataManager.getBiomeSpeed(), DataManager.getBiomeSpeed());
-                            DataManager.getBiomeTasks().put(player.getName(), biomeTask.getTaskId());
-                            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("biomeSwitch").replace("%Action%", "开启")));
-                        }
-                    } else {
-                        commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("noPermission")));
-                    }
-                } else if (strings[1].equalsIgnoreCase("region")) {
-                    if (player.hasPermission("RIR.switch.region")) {
-                        if (DataManager.getRegionTasks().containsKey(player.getName())) {
-                            scheduler.cancelTask(DataManager.getRegionTasks().get(player.getName()));
-                            DataManager.getRegionTasks().remove(player.getName());
-                            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("regionSwitch").replace("%Action%", "关闭")));
-                        } else {
-                            RegionTask regionTask = new RegionTask(player);
-                            regionTask.runTaskTimer(this.instance, DataManager.getRegionSpeed(), DataManager.getRegionSpeed());
-                            DataManager.getRegionTasks().put(player.getName(), regionTask.getTaskId());
-                            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("regionSwitch").replace("%Action%", "开启")));
-                        }
-                    } else {
-                        commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("noPermission")));
-                    }
-                } else {
-                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("wrongUsage")));
+                if (!player.hasPermission("RIR.admin")) {
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("noPermission")));
+                    return true;
                 }
-            } else {
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("wrongUsage")));
+                if (!DataManager.getRegions().containsKey(strings[1])) {
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + " &c区域不存在: " + strings[1]));
+                    return true;
+                }
+                DataManager.getRegions().get(strings[1]).draw(player);
+                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + " &a已绘制区域边界: " + strings[1]));
+                return true;
             }
+            //无用代码
+//            if (strings[0].equalsIgnoreCase("check") && DataManager.getRegions().containsKey(strings[1])) {
+//                commandSender.sendMessage(DataManager.getRegions().get(strings[1]).toString());
+//            } else if (strings[0].equalsIgnoreCase("switch") && commandSender instanceof Player) {
+//                player = (Player) commandSender;
+//                BukkitScheduler scheduler = Bukkit.getScheduler();
+//                if (strings[1].equalsIgnoreCase("biome")) {
+//                    if (player.hasPermission("RIR.switch.biome")) {
+//                        if (DataManager.getBiomeTasks().containsKey(player.getName())) {
+//                            scheduler.cancelTask(DataManager.getBiomeTasks().get(player.getName()));
+//                            DataManager.getBiomeTasks().remove(player.getName());
+//                            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("biomeSwitch").replace("%Action%", "关闭")));
+//                        } else {
+//                            BiomeTask biomeTask = new BiomeTask(player);
+//                            biomeTask.runTaskTimer(this.instance, DataManager.getBiomeSpeed(), DataManager.getBiomeSpeed());
+//                            DataManager.getBiomeTasks().put(player.getName(), biomeTask.getTaskId());
+//                            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("biomeSwitch").replace("%Action%", "开启")));
+//                        }
+//                    } else {
+//                        commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("noPermission")));
+//                    }
+//                } else if (strings[1].equalsIgnoreCase("region")) {
+//                    if (player.hasPermission("RIR.switch.region")) {
+//                        if (DataManager.getRegionTasks().containsKey(player.getName())) {
+//                            scheduler.cancelTask(DataManager.getRegionTasks().get(player.getName()));
+//                            DataManager.getRegionTasks().remove(player.getName());
+//                            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("regionSwitch").replace("%Action%", "关闭")));
+//                        } else {
+//                            RegionTask regionTask = new RegionTask(player);
+//                            regionTask.runTaskTimer(this.instance, DataManager.getRegionSpeed(), DataManager.getRegionSpeed());
+//                            DataManager.getRegionTasks().put(player.getName(), regionTask.getTaskId());
+//                            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("regionSwitch").replace("%Action%", "开启")));
+//                        }
+//                    } else {
+//                        commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("noPermission")));
+//                    }
+//                } else {
+//                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("wrongUsage")));
+//                }
+//            } else {
+//                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', DataManager.getPluginPrefix() + DataManager.getCustomMessages().get("wrongUsage")));
+//            }
         } else if (strings.length == 3) {
             if (strings[0].equalsIgnoreCase("create") && commandSender instanceof Player) {
                 player = (Player) commandSender;
@@ -191,11 +202,16 @@ public class MainCommand implements CommandExecutor, TabExecutor {
             tabHelper.add("check");
             tabHelper.add("create");
             tabHelper.add("createMode");
+            tabHelper.add("draw");
             tabHelper.add("help");
             tabHelper.add("reload");
-            tabHelper.add("switch");
+//            tabHelper.add("switch");
         } else if (strings.length == 2) {
             if (strings[0].equalsIgnoreCase("check")) {
+                for (String regionUid : DataManager.getRegions().keySet()) {
+                    tabHelper.add(regionUid);
+                }
+            } else if (strings[0].equalsIgnoreCase("draw")) {
                 for (String regionUid : DataManager.getRegions().keySet()) {
                     tabHelper.add(regionUid);
                 }
@@ -203,10 +219,11 @@ public class MainCommand implements CommandExecutor, TabExecutor {
                 tabHelper.add("ball");
                 tabHelper.add("cube");
                 tabHelper.add("cylinder");
-            } else if (strings[0].equalsIgnoreCase("switch")) {
-                tabHelper.add("biome");
-                tabHelper.add("region");
             }
+//            else if (strings[0].equalsIgnoreCase("switch")) {
+//                tabHelper.add("biome");
+//                tabHelper.add("region");
+//            }
         }
         return tabHelper;
     }

@@ -4,7 +4,7 @@ import com.github.pregrafer.RegionInformationReload.Command.ItemTypeCommand;
 import com.github.pregrafer.RegionInformationReload.Command.MainCommand;
 import com.github.pregrafer.RegionInformationReload.Listener.PlayerEnterAndLeaveRegion;
 import com.github.pregrafer.RegionInformationReload.Listener.PlayerInteract;
-import com.github.pregrafer.RegionInformationReload.Listener.PlayerJoinAndQuit;
+import com.github.pregrafer.RegionInformationReload.Listener.PlayerMove;
 import com.github.pregrafer.RegionInformationReload.Manager.DataManager;
 import com.github.pregrafer.RegionInformationReload.Manager.PlaceHolderManager;
 import org.bukkit.ChatColor;
@@ -51,7 +51,8 @@ public class RegionInformationReload extends JavaPlugin {
         }
         getPluginManager().registerEvents(new PlayerEnterAndLeaveRegion(), instance);
         getPluginManager().registerEvents(new PlayerInteract(), instance);
-        getPluginManager().registerEvents(new PlayerJoinAndQuit(), instance);
+        getPluginManager().registerEvents(new PlayerMove(), instance);
+//        getPluginManager().registerEvents(new PlayerJoinAndQuit(), instance);
         if (getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new PlaceHolderManager().register();
         }

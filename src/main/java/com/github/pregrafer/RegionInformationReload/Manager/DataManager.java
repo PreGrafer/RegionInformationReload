@@ -1,9 +1,9 @@
 package com.github.pregrafer.RegionInformationReload.Manager;
 
 import com.github.pregrafer.RegionInformationReload.Region.Region;
-import com.github.pregrafer.RegionInformationReload.Region.RegionDetials.BallRegion;
-import com.github.pregrafer.RegionInformationReload.Region.RegionDetials.CubeRegion;
-import com.github.pregrafer.RegionInformationReload.Region.RegionDetials.CylinderRegion;
+import com.github.pregrafer.RegionInformationReload.Region.RegionDetails.BallRegion;
+import com.github.pregrafer.RegionInformationReload.Region.RegionDetails.CubeRegion;
+import com.github.pregrafer.RegionInformationReload.Region.RegionDetails.CylinderRegion;
 import com.github.pregrafer.RegionInformationReload.RegionInformationReload;
 import com.github.pregrafer.RegionInformationReload.Tool.Point;
 import org.bukkit.configuration.ConfigurationSection;
@@ -24,6 +24,7 @@ public class DataManager {
     private static final HashMap<String, String> customMessages = new HashMap<>(); // 储存所有单条自定义信息
     private static final HashMap<String, Point> firstPointList = new HashMap<>(); // 储存建造模式下玩家选取的第一个点
     private static final HashMap<String, Point> secondPointList = new HashMap<>(); // 储存建造模式下玩家选取的第二个点
+    private static final HashMap<String, String> oldBiomes = new HashMap<>(); // 储存玩家进入生态群系前的生态群系
     private static final Set<String> createModeList = new HashSet<>(); // 缓存建造模式下的玩家
     private static FileConfiguration config = RegionInformationReload.getInstance().getConfig(); // 配置文件对象
     private static String pluginPrefix; // 插件信息前缀 无需操作 存在setter与getter
@@ -36,6 +37,11 @@ public class DataManager {
     private static boolean biomeActive; // 初始化开启生态群系
     private static boolean regionActive; // 初始化开启区域
     private static double defaultRedius, defaultHeight; //默认半径与高度
+    private static final HashMap<String, List<Region>> regionsByWorld = new HashMap<>(); // Store regions by world for optimization
+
+    public static FileConfiguration getConfig() {
+        return config;
+    }
 
     public static List<String> getKickInfos() {
         return kickInfos;
@@ -55,6 +61,10 @@ public class DataManager {
 
     public static double getDefaultHeight() {
         return defaultHeight;
+    }
+
+    public static void setDefaultHeight(double defaultHeight) {
+        DataManager.defaultHeight = defaultHeight;
     }
     /*
     下方大部分都是参数的getter与setter
@@ -162,6 +172,10 @@ public class DataManager {
         return regions;
     }
 
+    public static HashMap<String, String> getOldBiomes() {
+        return oldBiomes;
+    }
+
     public static HashMap<String, String> getBiomes() {
         return biomes;
     }
@@ -176,6 +190,10 @@ public class DataManager {
 
     public static HashMap<String, String> getCustomMessages() {
         return customMessages;
+    }
+
+    public static List<Region> getRegionsByWorld(String worldName) {
+        return regionsByWorld.getOrDefault(worldName, Collections.emptyList());
     }
 
     // 获取所有自定义消息
@@ -215,7 +233,7 @@ public class DataManager {
         setRegionActive(settings.getBoolean("activeOnPlayerJoin.region", true));
         setTool(settings.getString("tool", "GOLD_HOE"));
         setDefaultRedius(settings.getDouble("defaultRedius", 10.0));
-        setDefaultRedius(settings.getDouble("defaultHeight", 10.0));
+        setDefaultHeight(settings.getDouble("defaultHeight", 10.0));
         setCustomMessages();
     }
 
@@ -223,8 +241,13 @@ public class DataManager {
     public static void loadRegionsAndBiomes() {
         regions.clear();
         biomes.clear();
+        regionsByWorld.clear();
         ConfigurationSection regionsSection = config.getConfigurationSection("Regions");
-        Map<String, Object> biomesMap = config.getConfigurationSection("Biomes").getValues(true);
+        ConfigurationSection biomesSection = config.getConfigurationSection("Biomes");
+        Map<String, Object> biomesMap = biomesSection == null ? Collections.emptyMap() : biomesSection.getValues(true);
+        if (regionsSection == null) {
+            return;
+        }
         regionsSection.getKeys(false).stream().forEach(regionUniqueId -> {
             ConfigurationSection regionSection = regionsSection.getConfigurationSection(regionUniqueId);
             String type = regionSection.getString("type");
@@ -241,6 +264,7 @@ public class DataManager {
                     regionSection.getDouble("kickFaceYaw", 0));
             Set<String> banInteractItems = new HashSet<>(regionSection.getStringList("banInteractItems"));
 
+            Region region;
             if ("cube".equals(type)) {
                 Point point1 = new Point(regionSection.getDouble("X1"),
                         regionSection.getDouble("Y1"),
@@ -248,26 +272,28 @@ public class DataManager {
                 Point point2 = new Point(regionSection.getDouble("X2"),
                         regionSection.getDouble("Y2"),
                         regionSection.getDouble("Z2"));
-                regions.put(regionUniqueId, new CubeRegion(
-                        regionUniqueId, name, world, "cube", inInfos, outInfos, kickWorld, kickPoint, kickFace, banInteractItems, point1, point2));
+                region = new CubeRegion(
+                        regionUniqueId, name, world, "cube", inInfos, outInfos, kickWorld, kickPoint, kickFace, banInteractItems, point1, point2);
             } else if ("ball".equals(type)) {
                 Point center = new Point(regionSection.getDouble("centerX"),
                         regionSection.getDouble("centerY"),
                         regionSection.getDouble("centerZ"));
                 double radius = regionSection.getDouble("radius");
-                regions.put(regionUniqueId, new BallRegion(
-                        regionUniqueId, name, world, "ball", inInfos, outInfos, kickWorld, kickPoint, kickFace, banInteractItems, center, radius));
+                region = new BallRegion(
+                        regionUniqueId, name, world, "ball", inInfos, outInfos, kickWorld, kickPoint, kickFace, banInteractItems, center, radius);
             } else if ("cylinder".equals(type)) {
                 Point center = new Point(regionSection.getDouble("centerX"),
                         regionSection.getDouble("centerY"),
                         regionSection.getDouble("centerZ"));
                 double radius = regionSection.getDouble("radius");
                 double height = regionSection.getDouble("height");
-                regions.put(regionUniqueId, new CylinderRegion(
-                        regionUniqueId, name, world, "cylinder", inInfos, outInfos, kickWorld, kickPoint, kickFace, banInteractItems, center, radius, height));
+                region = new CylinderRegion(
+                        regionUniqueId, name, world, "cylinder", inInfos, outInfos, kickWorld, kickPoint, kickFace, banInteractItems, center, radius, height);
             } else {
-                regions.put(regionUniqueId, new Region(regionUniqueId, name, world, "ERROR", inInfos, outInfos, "ERROR", new Point(), new Point(), banInteractItems));
+                region = new Region(regionUniqueId, name, world, "ERROR", inInfos, outInfos, "ERROR", new Point(), new Point(), banInteractItems);
             }
+            regions.put(regionUniqueId, region);
+            regionsByWorld.computeIfAbsent(world, k -> new ArrayList<>()).add(region);
         });
         for (String i : biomesMap.keySet()) {
             if (biomesMap.get(i) != null) {
@@ -299,7 +325,7 @@ public class DataManager {
         data.put("kickFacePitch", kickFace.getX());
         data.put("kickFaceYaw", kickFace.getZ());
         data.put("banInteractItems", newRegion.getBanInteractItems());
-        
+
         if (newRegion instanceof CubeRegion) {
             Point point1 = ((CubeRegion) newRegion).getPoint1();
             Point point2 = ((CubeRegion) newRegion).getPoint2();

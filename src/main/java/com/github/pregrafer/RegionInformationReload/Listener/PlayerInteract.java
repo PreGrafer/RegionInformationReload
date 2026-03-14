@@ -41,7 +41,7 @@ public class PlayerInteract implements Listener {
             playerInteractEvent.setCancelled(true);
         }
         Set<String> regions = DataManager.getPlayerRegionLoc().get(player.getName());
-        if (playerInteractEvent.getItem() != null && !regions.isEmpty()) {
+        if (playerInteractEvent.getItem() != null && regions != null && !regions.isEmpty()) {
             for (String region : regions) {
                 Set<String> banInteractItems = DataManager.getRegions().get(region).getBanInteractItems();
                 String type = playerInteractEvent.getItem().getType().name();
