@@ -1,16 +1,30 @@
 name: RegionInformationReload
 version: '${project.version}'
-main: com.github.pregrafer.RegionInformationReload.RegionInformationReload
+main: pregrafer.rir.RirPlugin
 prefix: RegionInfoRe
-api-version: 1.13
-authors: [ pop2wo ]
-softdepend: [ PlaceholderAPI ]
+# Pre-1.13 Bukkit ignores this key; modern servers use the modern material API.
+api-version: '1.13'
+authors: [pop2wo]
+softdepend: [PlaceholderAPI]
 commands:
   regioninformationreload:
-    description: Main Command
-    aliases:
-      - rir
+    description: 区域信息与管理
+    aliases: [rir]
   itemtype:
-    description: Get item type In Hand
-    aliases:
-      - it
+    description: 查看手持物品材质
+    aliases: [it]
+permissions:
+  RIR.admin:
+    default: op
+  RIR.help:
+    default: true
+  RIR.itemtype:
+    default: true
+  RIR.switch.biome:
+    default: true
+  RIR.switch.region:
+    default: true
+  RIR.bypass.enter:
+    default: op
+  RIR.bypass.interact:
+    default: op

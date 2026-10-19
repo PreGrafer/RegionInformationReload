@@ -1,0 +1,72 @@
+name: Build and test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        api: ['1.9', '1.12.2', '1.13.2']
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v6.1.0
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+      - name: Verify against Spigot ${{ matrix.api }}
+        run: mvn --batch-mode --no-transfer-progress "-Dspigot.version=${{ matrix.api }}-R0.1-SNAPSHOT" verify
+      - name: Checksum baseline plugin
+        if: matrix.api == '1.9'
+        run: sha256sum target/*.jar > target/SHA256SUMS
+      - name: Upload baseline plugin
+        if: matrix.api == '1.9'
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: RegionInformationReload-java8
+          path: |
+            target/*.jar
+            target/SHA256SUMS
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: test-reports-${{ matrix.api }}
+          path: target/surefire-reports/
+          retention-days: 14
+
+  modern-api:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        api: ['1.21.11', '26.2']
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@v6.1.0
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - name: Compile against Spigot ${{ matrix.api }}
+        run: mvn --batch-mode --no-transfer-progress "-Dspigot.version=${{ matrix.api }}-R0.1-SNAPSHOT" -Dmaven.test.skip=true compile

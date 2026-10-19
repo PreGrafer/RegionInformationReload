@@ -1,0 +1,22 @@
+# 示例未自动启用。按需复制到 regions.yml 的 Regions 中。
+Regions:
+  spawn:
+    enabled: true
+    name: "&a出生点"
+    world: world
+    type: cube
+    X1: -20
+    Y1: -64
+    Z1: -20
+    X2: 20
+    Y2: 320
+    Z2: 20
+    priority: 10
+    # 空字符串表示公开；省略时沿用旧权限 RIR.enter.<id>。
+    enterPermission: ""
+    inInfos: ["[TITLE]-欢迎来到::%name%::10::40::10"]
+    outInfos: ["[ACB]-离开 %name%"]
+    firstEnterInfos: ["[MSG]-%player%，这是你第一次来到 %name%"]
+    repeatInfos:
+      '200': ["[ACB]-你正在 %name% 休息"]
+    banInteractItems: [LAVA_BUCKET, FIRE_CHARGE]

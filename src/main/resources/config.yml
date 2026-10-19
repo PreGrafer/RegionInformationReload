@@ -1,168 +1,37 @@
+# 区域位于 regions.yml；首次运行自动导入旧 config.yml 的 Regions 节点。
+# 玩家首次进入历史和提示偏好位于 players.yml。
 Settings:
-  #设置插件前缀
   pluginPrefix: "&7[&aRegionInfoRe&7]"
-  #设置选择工具 默认为金锄头
-  tool: "GOLDEN_HOE"
-  #设置玩家进入服务器时是否自动开启对应功能
+  tool: GOLDEN_HOE
+  # 仅控制新玩家默认提示；不影响权限、交互限制和区域指令。
   activeOnPlayerJoin:
-    #生物群系提示
     biome: true
-    #自定义区域提示
     region: true
-  #生态群系是否高精度显示，设置为false时, 如 SAVANNA与SAVANNA_ROCK两个群系切换时,无消息提示
+  enforceEntryPermissions: true
   biomeHighAccuracy: true
-  #设置检测强度,数字越低消耗越高,建议生态群系设置为50或100，自定义区域设置为20 (整数！！！)
+  # tick（20 tick 约 1 秒）。区域权限检查始终随实际移动实时执行。
   biomeSpeed: 100
+  # 对坐骑等路径的位置校准周期；各玩家错开到期 tick，最大校准间隔为此值。
+  # 静止玩家跳过几何查询；不改变普通移动的即时权限检查。
   regionSpeed: 20
-  #创建球形和圆柱形区域时默认的半径与高度
-  defaultRedius: 10
+  # 兼容旧拼写 defaultRedius；新配置使用 defaultRadius。
+  defaultRadius: 10
   defaultHeight: 10
-
+  deniedMessageCooldown: 40
+  index:
+    # 超过此区块数量的区域仅保存在世界级候选列表，限制索引内存。
+    maxChunksPerRegion: 4096
+  preview:
+    maxParticles: 240
 Tips:
   Single:
-    #未知指令
-    unknowCommand: " 未知指令! 请使用/rir help"
-    #设置插件重载信息 RIR.admin
-    reload: " 插件已重载!"
-    #进入区域创建模式消息提示 RIR.admin
-    createModeSwitch: " 创建模式已%Action%!"
-    #没有权限
-    noPermission: " 你没有权限!"
-    #错误的指令使用方式
-    wrongUsage: " 指令输入出错! 请使用/rir help"
-    #生态群系提示开关时提示 %Action%为占位符,表示开启或关闭 RIR.switch.biome
-    biomeSwitch: " 生物群系提示已%Action%!"
-    #自定义区域提示开关时提示 RIR.switch.region
-    regionSwitch: " 区域提示已%Action%!"
-    #选中第一个方块
-    firstPoint: " 选择第一个点: %Point%"
-    #选中第二个方块
-    secondPoint: " 选择第二个点: %Point%"
-    #点位不足
-    pointNotEnough: " 你选择的点位不足!"
-    #创建成功
-    createSuccessfully: " 成功创建区域,请在config.yml中修改配置"
-    #未在区域内显示的内容
+    noPermission: "你没有权限"
     noRegion: "野外"
   Entry:
-    #生物群系消息提示内容，
-    #[MSG] 发送消息
-    #[TILE] 发送标题 使用::分割属性 主标题::副标题::淡入时间::停留时间::淡出时间
-    #[ACB] ACTION_BAR消息
-    #[CCOM] 控制台指令 不用加/
-    #[PCOM] 玩家指令 不用加/
     biomeInfos:
-      - "[ACB]-&b%oldBiome%&a->&b%newBiome%"
-    #禁止进入区域时的提示
+      - "[ACB]-&b%oldBiome% &a→ &b%newBiome%"
     kickInfos:
-      - "[MSG]-&a你没有权限进入 %name% &a!"
-    #帮助菜单
-    helpTips:
-      - "&7RegionInformationReload:"
-      - "&7/rir check <regionUniqueId> - 查看区域详细信息 #RIR.admin"
-      - "&7/rir create <type> <regionUniqueId> - 创建一个type类型的新区域(需要点位选择) #RIR.admin"
-      - "&7/rir createMode - 进入点位选择模式(手持config中的tool) #RIR.admin"
-      - "&7/rir draw <regionUniqueId> - 用粒子描边显示区域 #RIR.admin"
-      - "&7/rir help - 获取帮助 #RIR.help"
-      - "&7/rir reload - 重载插件 #RIR.admin"
-      - "&7/rir switch <biome/region> - 打开/关闭功能 #RIR.switch.biome/region"
-
-#区域设置
-Regions:
-  #区域的唯一ID
-  region1:
-    #区域名
-    name: "&ctestCube"
-    #世界
-    world: "world"
-    #区域种类
-    type: "cube"
-    #正方形区域的两个对角点即可
-    X1: 481
-    Y1: 63
-    Z1: 51
-    X2: 490
-    Y2: 69
-    Z2: 62
-    #区域进入提示
-    inInfos:
-      - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
-      #下面的实例是主标题为空的Title
-      - "[TITLE]-::%name%::10::20::10"
-      - "[CCOM]-give %player% arrow 1"
-      - "[PCOM]-say im noob"
-    #区域离开提示
-    outInfos:
-      - "[TITLE]-::%name%::0::0::40"
-    #禁止进入区域时传送到...
-    kickWorld: "world"
-    kickX: 480.5
-    kickY: 64
-    kickZ: 51.5
-    #禁止进入区域时传送后的视角
-    kickFacePitch: 0
-    kickFaceYaw: 0
-    banInteractItems: [ ]
-  region2:
-    #区域名
-    name: "&ctestBall"
-    #世界
-    world: "world"
-    #区域种类
-    type: "ball"
-    #球心坐标与球的半径
-    centerX: 503.5
-    centerY: 63
-    centerZ: 50.5
-    radius: 5
-    #区域进入提示
-    inInfos:
-      - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
-      #下面的实例是主标题为空的Title
-      - "[TITLE]-::%name%::10::20::10"
-    #区域离开提示
-    outInfos:
-      - "[TITLE]-::%name%::0::0::40"
-    #禁止进入区域时传送到...
-    kickWorld: "world"
-    kickX: 480.5
-    kickY: 64
-    kickZ: 51.5
-    #禁止进入区域时传送后的视角
-    kickFacePitch: 0
-    kickFaceYaw: 0
-    banInteractItems: [ ]
-  region3:
-    #区域名
-    name: "&ctestCylinder"
-    #世界
-    world: "world"
-    #区域种类
-    type: "cylinder"
-    #圆柱纵截面圆心点和圆的半径
-    centerX: 488.5
-    centerY: 67
-    centerZ: 22.5
-    radius: 5
-    height: 3
-    #区域进入提示
-    inInfos:
-      - "[MSG]-&e[&c!&e] &a你进入了%name%&a!"
-      #下面的实例是主标题为空的Title
-      - "[TITLE]-::%name%::10::20::10"
-    #区域离开提示
-    outInfos:
-      - "[TITLE]-::%name%::0::0::40"
-    #禁止进入区域时传送到...
-    kickWorld: "world"
-    kickX: 480.5
-    kickY: 64
-    kickZ: 51.5
-    #禁止进入区域时传送后的视角
-    kickFacePitch: 0
-    kickFaceYaw: 0
-    banInteractItems: [ ]
-
+      - "[MSG]-&c你没有权限进入 %name%"
 Biomes:
   #根据需求自行补齐吧~
   #https://bukkit.windit.net/javadoc/org/bukkit/block/Biome.html
